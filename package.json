@@ -1,0 +1,12 @@
+{
+  "name": "kompla-sito",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sito scroll-film di Kompla — Continuous Business Risk Intelligence",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

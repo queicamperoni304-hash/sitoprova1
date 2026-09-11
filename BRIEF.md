@@ -155,3 +155,26 @@ stesso seme, stessi frame.
 ### Contatto
 L'indirizzo del founder e' stato sostituito con `ciao@kompla.io` — FITTIZIO,
 su richiesta. Va cambiato con quello vero prima di pubblicare.
+
+---
+
+## Deploy su Railway
+
+Railpack analizza la RADICE del repo. Prima di questo commit trovava solo
+.claude/ sito/ tools/ .gitignore BRIEF.md — nessun package.json, nessun
+index.html in radice — ripiegava sul provider Shell e falliva la build.
+
+Soluzione: `package.json` in radice con `start`, e `server.js`, un server
+statico SENZA DIPENDENZE che serve `sito/`.
+- ascolta su `process.env.PORT` (Railway la assegna) e su 0.0.0.0 — entrambe
+  obbligatorie, con l'host sbagliato il health check fallisce in silenzio
+- blocca il path traversal fuori da sito/
+- radar/, fonts/ e vendor/ sono immutabili: max-age=31536000, immutable
+- index.html e' no-cache, altrimenti un aggiornamento non arriva mai
+
+NON spostare il sito in radice per far contento il builder: il server e' due
+file e tiene separate le cose.
+
+Verificato in locale: tutte le rotte 200 con il content-type giusto, traversal
+403/404, PORT rispettata, pagina che rende davvero servita da questo server
+(non solo file che arrivano).
