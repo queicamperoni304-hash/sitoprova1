@@ -110,3 +110,48 @@ DA RIVERIFICARE su hardware vero prima di dire che passa.
 ### Non fatto
 - Deploy (mai richiesto)
 - prefers-reduced-motion verificato solo per costruzione, non con uno screenshot dedicato
+
+---
+
+## Secondo movimento: IL FILTRO CONTINUO (film radar scrubbato)
+
+Sezione `#radarFilm`, tra IL COSTO e COME FUNZIONA. E' un film VERO scrubbato dallo
+scroll con il motore della Corsia B (canvas + frame JPEG pre-estratti, finestra
+scorrevole di ImageBitmap, playhead smorzato, fallback sul frame piu' vicino,
+fit con soglia di ritaglio 0.22, DPR 1.0). I frame non vengono da un modello video:
+li genera `tools/gen-radar.js` in 6 secondi, a costo zero.
+
+Perche' generati e non comprati: il radar e' geometria vettoriale precisa (anelli
+concentrici del marchio, spazzata, documenti, arco di copertura). Un modello
+image-to-video lo restituirebbe sfocato e non deterministico.
+
+### Il film
+- vettore unico: la spazzata gira solo in avanti, 3,25 giri su tutto il film
+- 72 documenti nascono in modo scaglionato; quando la spazzata li raggiunge si
+  risolvono: 24% ambra (rischio), il resto teal (pulito)
+- l'arco teal sull'anello esterno cresce con la copertura: e' la trasformazione
+- al frame finale 69 su 72 sono risolti — gli ultimi 3 restano aperti, perche'
+  "in continuo" significa che non finisce mai
+- 144 frame per passaggio, due passaggi: desktop 1440x810 e un VERO 9:16 640x1138
+  (stessa lunghezza, il playhead mappa 1:1, scambio al breakpoint chiudendo le
+  vecchie ImageBitmap)
+- peso: 6,8 MB in totale, ~26 KB a frame
+
+### cov.json
+`sito/radar/cov.json` e' la serie della copertura reale frame per frame, esportata
+dal generatore. Il contatore in pagina LEGGE quella serie: non e' una stima.
+Se rigeneri i frame, cov.json si riscrive da solo. Non scriverlo a mano.
+
+### Jank misurato sul radar (stesso container senza GPU)
+mediana 16,7ms · p95 16,8ms · max 33,4ms — stabile su due corse.
+E' il pezzo PIU' FLUIDO della pagina, piu' del film in puro codice: e' la prova
+che il blit di una texture batte la ri-rasterizzazione del DOM a scala variabile.
+
+### Rigenerare
+    CHROME_PATH=<chrome> node tools/gen-radar.js 144
+Cambiare il seme o TURNS in tools/radar-gen.html cambia il film. Deterministico:
+stesso seme, stessi frame.
+
+### Contatto
+L'indirizzo del founder e' stato sostituito con `ciao@kompla.io` — FITTIZIO,
+su richiesta. Va cambiato con quello vero prima di pubblicare.

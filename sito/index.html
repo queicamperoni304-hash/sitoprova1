@@ -468,6 +468,72 @@ p{margin:0 0 18px}
 #pilastri{min-height:auto; padding-top:0; border-top:0}
 .flow{border-top:0}
 
+/* ============================================================
+   IL FILTRO CONTINUO — film radar scrubbato
+   ============================================================ */
+.radar{position:relative; height:470vh; background:#05090F}
+.rstage{position:sticky; top:0; height:100vh; overflow:hidden; background:#05090F}
+.rstage canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
+.rveil{
+  position:absolute; inset:0; z-index:4; pointer-events:none;
+  background:linear-gradient(to bottom,var(--ink) 0%,rgba(8,15,26,0) 15%,
+             rgba(5,9,15,0) 78%,rgba(8,15,26,.55) 100%);
+}
+/* la cucitura vera: entra solo in coda e passa SOPRA i beat, altrimenti
+   il testo resta appeso sotto l'header mentre la sezione se ne va */
+.rseam{
+  position:absolute; inset:auto 0 0 0; height:82vh; z-index:12; pointer-events:none;
+  opacity:0;
+  background:linear-gradient(to bottom,rgba(8,15,26,0),rgba(8,15,26,.5) 32%,var(--ink) 74%);
+}
+.rbeats{position:absolute; inset:0; z-index:6; pointer-events:none}
+.rbeat{
+  position:absolute; left:var(--gut); bottom:clamp(84px,13vh,150px);
+  width:min(620px,calc(100vw - var(--gut) * 2)); opacity:0;
+}
+.rbeat::before{
+  content:""; position:absolute; z-index:-1; inset:-140% -30% -150% -18%;
+  background:radial-gradient(58% 56% at 24% 52%,rgba(3,7,14,.86),rgba(3,7,14,.5) 46%,transparent 76%);
+}
+.rbeat h2{
+  font-family:var(--display); font-weight:400; margin:0;
+  font-size:clamp(32px,4.6vw,64px); line-height:1.05; letter-spacing:-.018em;
+  color:#fff; text-shadow:0 2px 34px rgba(0,0,0,.8);
+}
+.rbeat p{
+  margin:18px 0 0; max-width:32em; font-size:clamp(15px,1.3vw,18px);
+  color:#C9D4E4; text-shadow:0 1px 22px rgba(0,0,0,.9);
+}
+.rmeter{
+  position:absolute; right:var(--gut); bottom:clamp(84px,13vh,150px);
+  z-index:7; text-align:right; pointer-events:none; opacity:0;
+  transition:opacity .7s var(--ease);
+}
+.rmeter.on{opacity:1}
+.rmeter .n{
+  display:block; font-family:var(--display); font-size:clamp(40px,4.6vw,64px);
+  line-height:.9; color:var(--teal); text-shadow:0 2px 26px rgba(0,0,0,.9);
+}
+.rmeter .l{
+  display:block; margin-top:12px; font-family:var(--mono); font-size:10px;
+  letter-spacing:.22em; color:var(--text); text-shadow:0 1px 16px rgba(0,0,0,.95);
+}
+.rload{
+  position:absolute; left:50%; bottom:11vh; transform:translateX(-50%); z-index:8;
+  width:min(220px,42vw); height:2px; background:rgba(180,192,212,.2);
+  transition:opacity .6s var(--ease);
+}
+.rload i{display:block; height:100%; width:0; background:var(--amber); box-shadow:0 0 10px var(--amber)}
+.rload.done{opacity:0}
+@media(max-width:760px){
+  .radar{height:400vh}
+  .rmeter{bottom:auto; top:clamp(76px,11vh,110px)}
+  .rmeter .n{font-size:38px}
+  .rbeat h2{font-size:clamp(27px,7.8vw,38px)}
+  .rbeat p{font-size:15px}
+}
+@media(prefers-reduced-motion:reduce){ .radar{height:100vh} .rload{display:none} }
+
 /* atterraggio dal film */
 #manifesto{
   border-top:0;
@@ -776,6 +842,34 @@ p{margin:0 0 18px}
   </div>
 </section>
 
+<!-- ========================= IL FILTRO CONTINUO ========================= -->
+<section class="radar" id="radarFilm" aria-label="Il filtro continuo di Kompla">
+  <div class="rstage">
+    <canvas id="rcanvas"></canvas>
+    <div class="rveil"></div>
+    <div class="rbeats">
+      <div class="rbeat" data-in="-0.1" data-peak="0.05" data-out="0.33">
+        <h2>Ogni documento che entra passa dal controllo.</h2>
+        <p>Anche quello arrivato venerdì alle 19, quando il tuo legale era altrove e il cliente aspettava una risposta entro lunedì.</p>
+      </div>
+      <div class="rbeat" data-in="0.35" data-peak="0.48" data-out="0.66">
+        <h2>Quelli puliti non ti rubano un minuto.</h2>
+        <p>Gli altri arrivano sul tavolo già con l’articolo che li giustifica e il testo da mandare alla controparte.</p>
+      </div>
+      <div class="rbeat" data-in="0.69" data-peak="0.84" data-out="2">
+        <h2>Il tuo legale vede solo ciò che merita il suo tempo.</h2>
+        <p>Il resto resta verificato, tracciato e pronto da mostrare a un cliente enterprise che lo chiede.</p>
+      </div>
+    </div>
+    <div class="rmeter" id="rmeter">
+      <span class="n" id="rcov">0</span>
+      <span class="l">DOCUMENTI VERIFICATI · SU 72</span>
+    </div>
+    <div class="rload" id="rload"><i></i></div>
+    <div class="rseam" id="rseam"></div>
+  </div>
+</section>
+
 <!-- ========================= COME FUNZIONA ========================= -->
 <section class="section" id="come">
   <div class="wrap">
@@ -880,10 +974,10 @@ p{margin:0 0 18px}
     <p class="eyebrow">IL MODO GIUSTO DI COMINCIARE</p>
     <h2 class="big">Dacci i tre documenti che ti tengono fermo un deal.</h2>
     <p class="lede">Un audit su 3–5 documenti critici, sui tuoi contratti reali, con il rapporto completo: segnalazioni, fonte normativa, correzioni proposte e pacchetto di prove. Se non trova niente che valga il suo prezzo, te lo diciamo e chiudiamo lì.</p>
-    <a class="cta" href="mailto:vincenzopiopatermo@gmail.com?subject=Audit%20Kompla%20—%20tre%20documenti&amp;body=Ciao%20Vincenzo%2C%0A%0ASiamo%20__________%20(__%20persone).%0AI%20documenti%20che%20ci%20stanno%20bloccando%20sono%3A%0A1.%0A2.%0A3.%0A%0AGrazie.">
+    <a class="cta" href="mailto:ciao@kompla.io?subject=Audit%20Kompla%20—%20tre%20documenti&amp;body=Ciao%20Vincenzo%2C%0A%0ASiamo%20__________%20(__%20persone).%0AI%20documenti%20che%20ci%20stanno%20bloccando%20sono%3A%0A1.%0A2.%0A3.%0A%0AGrazie.">
       Prenota un audit <span class="price">490–990 €</span>
     </a>
-    <p><a class="alt" href="mailto:vincenzopiopatermo@gmail.com?subject=Kompla%20—%20due%20domande">Oppure scrivi due righe al fondatore, senza impegno</a></p>
+    <p><a class="alt" href="mailto:ciao@kompla.io?subject=Kompla%20—%20due%20domande">Oppure scrivi due righe al fondatore, senza impegno</a></p>
   </div>
 </section>
 
@@ -917,7 +1011,7 @@ p{margin:0 0 18px}
     <small style="margin-top:16px">CONTINUOUS BUSINESS RISK INTELLIGENCE<br>MILANO, ITALIA</small>
   </div>
   <div>
-    <small><a href="mailto:vincenzopiopatermo@gmail.com">vincenzopiopatermo@gmail.com</a></small>
+    <small><a href="mailto:ciao@kompla.io">ciao@kompla.io</a></small>
     <small style="margin-top:10px">MOVE FAST, STAY COVERED</small>
   </div>
   <div class="srcs">
@@ -1153,8 +1247,173 @@ function tick(){
   if (!primed || Math.abs(pNow - pTarget) > 0.00008 || !STATIC){
     renderFilm(pNow); primed = true;
   }
-  if (header) header.style.setProperty('--hdr', pNow > 0.02 ? 1 : 1);
+  rTick();
   requestAnimationFrame(tick);
+}
+
+/* ------------------------------------------------------------------
+   2b. IL FILTRO CONTINUO — motore di scrub su canvas
+   I frame sono pre-renderizzati (tools/gen-radar.js): scrubbare
+   <video currentTime> scatta per la latenza di seek, disegnare
+   ImageBitmap decodificati fuori thread è un blit puro.
+   ------------------------------------------------------------------ */
+var RN       = 144;
+var rWrap    = $('#radarFilm'),
+    rCan     = $('#rcanvas'),
+    rLoadEl  = $('#rload'),
+    rCovEl   = $('#rcov'),
+    rMeter   = $('#rmeter');
+var rCtx     = rCan ? rCan.getContext('2d', { alpha:false }) : null;
+var rSeam    = $('#rseam');
+var rImgs    = new Array(RN), rBmp = new Map(), rDecoding = new Set();
+var rCov     = null, rDir = null, rDone = 0, rShown = -1;
+var rNow     = 0, rTarget = 0, rBmpC = -999, rBooted = false;
+var rMQ      = matchMedia('(max-width: 760px)');
+var rBeats   = $$('.rbeat').map(function(el){
+  return { el:el, in:+el.dataset.in, peak:+el.dataset.peak, out:+el.dataset.out, shown:-1 };
+});
+
+function rPath(i, dir){ return 'radar/' + dir + '/r_' + String(i).padStart(4,'0') + '.jpg'; }
+
+function rSize(){
+  if (!rCan) return;
+  /* DPR a 1.0: la sorgente combacia col canvas, ed è da lì che viene la nitidezza */
+  var w = Math.max(1, innerWidth), h = Math.max(1, innerHeight);
+  if (rCan.width !== w || rCan.height !== h){ rCan.width = w; rCan.height = h; rShown = -1; }
+}
+
+function rLoad(dir){
+  if (rDir === dir) return;
+  rDir = dir; rDone = 0; rShown = -1; rBmpC = -999;
+  rBmp.forEach(function(b){ b.close(); }); rBmp.clear(); rDecoding.clear();
+  rImgs = new Array(RN);
+  if (rLoadEl) rLoadEl.classList.remove('done');
+  /* prima una breve corsa iniziale, poi il resto: il primo disegno non aspetta il film intero */
+  var order = [], i;
+  for (i = 0; i < 14; i++) order.push(i);
+  for (i = 14; i < RN; i++) order.push(i);
+  var q = order.slice(), inFlight = 0;
+  function done(){
+    rDone++;
+    if (rLoadEl){
+      rLoadEl.firstElementChild.style.width = (rDone / RN * 100).toFixed(1) + '%';
+      if (rDone >= RN) rLoadEl.classList.add('done');
+    }
+    inFlight--; pump();
+  }
+  function pump(){
+    while (inFlight < 10 && q.length){
+      (function(k){
+        inFlight++;
+        var im = new Image();
+        im.onload  = function(){ rImgs[k] = im; done(); };
+        im.onerror = done;
+        im.src = rPath(k, dir);
+      })(q.shift());
+    }
+  }
+  pump();
+}
+
+function rNearest(i){
+  if (rImgs[i]) return rImgs[i];
+  for (var d = 1; d < RN; d++){
+    if (rImgs[i-d]) return rImgs[i-d];
+    if (rImgs[i+d]) return rImgs[i+d];
+  }
+  return null;
+}
+
+/* copri finché il ritaglio è modesto, altrimenti letterbox: su un telefono
+   un fotogramma 16:9 in cover butterebbe via i tre quarti della composizione */
+function rFit(src, sw, sh){
+  var cw = rCan.width, ch = rCan.height;
+  var cover = Math.max(cw/sw, ch/sh);
+  var crop  = 1 - Math.min(cw/(sw*cover), ch/(sh*cover));
+  var sc    = crop > 0.22 ? Math.min(cw/sw, ch/sh) : cover;
+  var w = sw*sc, h = sh*sc;
+  rCtx.fillStyle = '#05090F'; rCtx.fillRect(0, 0, cw, ch);
+  rCtx.drawImage(src, (cw-w)/2, (ch-h)/2, w, h);
+}
+
+function rDraw(i){
+  if (!rCtx) return;
+  var bm = rBmp.get(i);
+  if (bm){ rFit(bm, bm.width, bm.height); rShown = i; return; }
+  var im = rNearest(i);
+  if (im){ rFit(im, im.naturalWidth, im.naturalHeight); rShown = i; }
+}
+
+function rEnsure(c){
+  if (Math.abs(c - rBmpC) < 3) return;
+  rBmpC = c;
+  var lo = Math.max(0, c - 14), hi = Math.min(RN - 1, c + 30), i;
+  for (i = lo; i <= hi; i++){
+    if (rBmp.has(i) || rDecoding.has(i) || !rImgs[i]) continue;
+    rDecoding.add(i);
+    (function(k){
+      createImageBitmap(rImgs[k]).then(function(b){
+        rDecoding.delete(k);
+        if (Math.abs(k - rBmpC) > 40){ b.close(); return; }
+        rBmp.set(k, b);
+        if (k === rShown) rDraw(k);
+      }).catch(function(){ rDecoding.delete(k); });
+    })(i);
+  }
+  rBmp.forEach(function(b, k){
+    if (k < c - 40 || k > c + 40){ b.close(); rBmp.delete(k); }
+  });
+}
+
+function rProgress(){
+  var r = rWrap.getBoundingClientRect();
+  if (r.height <= innerHeight) return 0;
+  return clamp(-r.top / (r.height - innerHeight), 0, 1);
+}
+
+function rTick(){
+  if (!rCtx || !rWrap) return;
+  var r = rWrap.getBoundingClientRect();
+  if (r.bottom < -200 || r.top > innerHeight + 200) return;   /* fuori scena: niente lavoro */
+  rTarget = REDUCE ? 1 : rProgress();
+  rNow += (rTarget - rNow) * (STATIC ? 1 : 0.14);
+  var idx = Math.round(rNow * (RN - 1));
+  rEnsure(idx);
+  if (idx !== rShown) rDraw(idx);
+
+  for (var i = 0; i < rBeats.length; i++){
+    var b = rBeats[i], a = beatAlpha(b, rNow);
+    if (a === b.shown) continue;
+    b.shown = a;
+    b.el.style.opacity = a.toFixed(3);
+    b.el.style.transform = 'translateY(' + ((1 - a) * 24).toFixed(1) + 'px)';
+  }
+  if (rSeam) rSeam.style.opacity = ramp(rNow, 0.955, 1).toFixed(3);
+  if (rCov && rCovEl){
+    var v = rCov[clamp(idx, 0, rCov.length - 1)];
+    if (rCovEl.textContent !== String(v)) rCovEl.textContent = v;
+    if (rMeter) rMeter.classList.add('on');
+  }
+}
+
+function rBoot(){
+  if (!rCtx || rBooted) return Promise.resolve();
+  rBooted = true;
+  rSize();
+  rLoad(rMQ.matches ? 'm' : 'd');
+  rMQ.addEventListener('change', function(){ rLoad(rMQ.matches ? 'm' : 'd'); });
+  /* la copertura mostrata è quella vera, frame per frame, non una stima */
+  fetch('radar/cov.json').then(function(r){ return r.json(); })
+    .then(function(j){ if (Array.isArray(j) && j.length) rCov = j; })
+    .catch(function(){});
+  return new Promise(function(res){
+    var t0 = Date.now();
+    (function wait(){
+      var idx = Math.round(rProgress() * (RN - 1));
+      if (rImgs[idx] || rDone >= 14 || Date.now() - t0 > 8000) return res();
+      setTimeout(wait, 60);
+    })();
+  });
 }
 
 /* ------------------------------------------------------------------
@@ -1219,6 +1478,7 @@ if (window.gsap && window.ScrollTrigger){
    ------------------------------------------------------------------ */
 function settle(){
   drawDocs();
+  rSize(); if (rShown >= 0) rDraw(rShown);
   renderFilm(pNow = pTarget = filmTarget());
   if (window.ScrollTrigger) ScrollTrigger.refresh();
 }
@@ -1226,6 +1486,8 @@ function settle(){
 addEventListener('resize', function(){ settle(); }, { passive:true });
 
 Promise.resolve(document.fonts ? document.fonts.ready : null).then(function(){
+  return rBoot();
+}).then(function(){
   requestAnimationFrame(function(){
     if (JUMP !== null){
       scrollTo(0, +JUMP || 0);
@@ -1239,10 +1501,23 @@ Promise.resolve(document.fonts ? document.fonts.ready : null).then(function(){
       $$('.section').forEach(function(s){ s.classList.add('in'); });
       pNow = pTarget = filmTarget();
       renderFilm(pNow);
-      requestAnimationFrame(function(){
-        renderFilm(pNow = pTarget = filmTarget());
-        requestAnimationFrame(function(){ window.__ready = true; });
-      });
+      rNow = rTarget = (REDUCE ? 1 : rProgress());
+      /* con ?jump il cancello si apre solo a frame di destinazione DISEGNATO:
+         altrimenti il banco di prova fotografa un frame di ripiego */
+      (function waitFrame(t0){
+        t0 = t0 || Date.now();
+        var idx = Math.round(rNow * (RN - 1));
+        if (rCtx && !rImgs[idx] && Date.now() - t0 < 15000){
+          return setTimeout(function(){ waitFrame(t0); }, 60);
+        }
+        rEnsure(idx); rDraw(idx);
+        requestAnimationFrame(function(){
+          renderFilm(pNow = pTarget = filmTarget());
+          rNow = rTarget = (REDUCE ? 1 : rProgress());
+          rDraw(Math.round(rNow * (RN - 1)));
+          requestAnimationFrame(function(){ window.__ready = true; });
+        });
+      })();
     } else {
       settle();
       window.__ready = true;
