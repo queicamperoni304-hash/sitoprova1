@@ -337,3 +337,33 @@ canvas e sostituire l'href del link a ogni frame — e' quello che fa il file.
 `prefers-reduced-motion` (in quel caso resta `favicon.svg`).
 VERIFICATO: 4 frame consecutivi tutti distinti; con movimento ridotto l'href
 resta favicon.svg e le orbite in pagina sono ferme.
+
+---
+
+## IL VOLUME (cap. 4 del film) — fermo e a tutto schermo
+
+Su richiesta dell'utente questo capitolo NON partecipa piu' allo zoom: con la
+scala che cambiava sembrava una fotografia che rimpicciolisce. Ora il muro di
+contratti riempie tutta la finestra (124vw x 156vh, 150x170 su mobile), resta
+FERMO (`fisso:true` nel livello, scala bloccata a 1) ed entra/esce solo in
+dissolvenza. Le colonne sono 19 (11 su mobile) perche' la tela e' piu' larga
+della finestra e serve quella densita' per vederne ~15 a schermo.
+E' l'unico livello escluso dal vettore dello zoom: e' una deroga voluta,
+non una dimenticanza. Non rimetterlo nel movimento.
+
+## Lingua: TUTTO IN ITALIANO
+
+Il mercato e' italiano, quindi il documento del film, la clausola, la
+correzione proposta, il DPA di esempio della demo e tutte le etichette sono in
+italiano. In particolare: "novantasei (96) ore" e "quarantotto (48) ore",
+"INDICE DI RISCHIO", "CORREZIONE PROPOSTA", "DPA-CHK-09 · notifica ≤ 48h".
+Il motore della demo riconosce gia' l'italiano in tutte e 12 le regole
+(verificato: 11 rilevazioni sul campione italiano, come sull'inglese).
+
+RESTANO in inglese due sole cose, e sono ASSET DI BRAND presi dal deck:
+  "CONTINUOUS BUSINESS RISK INTELLIGENCE" (la categoria, in copertina al deck)
+  "MOVE FAST, STAY COVERED" (il payoff)
+Tradurli e' una decisione di brand, non di localizzazione: chiedere prima.
+Nota: il deck stesso (pag. 15) dice che i documenti reali sono spesso in
+inglese anche fra aziende UE. La scelta dell'italiano e' voluta dall'utente
+per il mercato di riferimento.

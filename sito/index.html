@@ -166,7 +166,9 @@
 .applied b{color:var(--teal); font-weight:500}
 
 /* ---------- L4 · il volume ---------- */
-.l4{width:min(1300px,112vw); height:min(500px,52vh)}
+/* Il muro dei contratti non e' una fotografia che rimpicciolisce: riempie
+   tutto lo schermo e resta fermo. Entra e se ne va in dissolvenza. */
+.l4{width:124vw; height:156vh}
 .l4 .grid{position:absolute; inset:0; width:100%; height:100%; display:block}
 .l4 .tally{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
@@ -300,7 +302,7 @@
   .score .n{font-size:54px}
   .redline q{font-size:10.5px}
 
-  .l4{width:96vw; height:46vh}
+  .l4{width:150vw; height:170vh}
   .l4 .tally .big{font-size:64px}
   .l4 .tally .cap{font-size:9.5px; letter-spacing:.18em}
 
@@ -342,7 +344,7 @@
   .score .n{font-size:54px}
   .redline q{font-size:10.5px}
 
-  .l4{width:96vw; height:46vh}
+  .l4{width:150vw; height:170vh}
   .l4 .grid{grid-template-columns:repeat(13,1fr); grid-auto-rows:34px; gap:4px; overflow:hidden}
   .l4 .tally .big{font-size:64px}
   .l4 .tally .cap{font-size:9.5px; letter-spacing:.18em}
@@ -561,32 +563,32 @@
       <!-- L0 -->
       <div class="lvl l0" aria-hidden="true">
         <div class="sheet"></div><div class="fiber"></div>
-        <div class="ink"><b>n</b>i<i>n</i>e<i>t</i><b>y</b></div>
+        <div class="ink"><b>n</b>o<i>v</i>a<i>n</i><b>t</b></div>
       </div>
 
       <!-- L1 -->
       <div class="lvl l1">
         <div class="paper">
-          <p class="line"><span class="faint">…shall notify the Controller within</span>
-          <span class="mark">ninety-six (96) hours</span>
-          <span class="faint">after becoming aware.</span></p>
+          <p class="line"><span class="faint">…notifica al Titolare entro</span>
+          <span class="mark">novantasei (96) ore</span>
+          <span class="faint">dal momento in cui ne viene a conoscenza.</span></p>
         </div>
       </div>
 
       <!-- L2 -->
       <div class="lvl l2">
         <div class="paper">
-          <h4>§ 9 — Personal Data Breach</h4>
-          <p class="body">In the event of a personal data breach, the Processor shall notify the Controller within
-          <span class="mark">ninety-six (96) hours</span> after becoming aware of it.</p>
-          <h4 class="mute-h">§ 11 — International Transfers</h4>
-          <p class="body mute">The Processor may transfer personal data outside the EEA for support purposes.</p>
+          <h4>§ 9 — Violazione dei dati personali</h4>
+          <p class="body">In caso di violazione dei dati personali, il Responsabile notifica al Titolare entro
+          <span class="mark">novantasei (96) ore</span> dal momento in cui ne viene a conoscenza.</p>
+          <h4 class="mute-h">§ 11 — Trasferimenti internazionali</h4>
+          <p class="body mute">Il Responsabile può trasferire dati personali fuori dallo Spazio economico europeo per finalità di assistenza.</p>
         </div>
         <div class="card">
           <div class="hd"><i class="dot"></i><b>Notifica oltre il termine di legge</b><span class="sev">ALTA</span></div>
           <div class="rows">
             <div><span>FONTE</span><b>GDPR Art. 33(1)–(2)</b></div>
-            <div><span>REGOLA</span><b>DPA-CHK-09 · breach ≤ 48h</b></div>
+            <div><span>REGOLA</span><b>DPA-CHK-09 · notifica ≤ 48h</b></div>
             <div><span>CONFIDENZA</span><b><em>96%</em></b></div>
           </div>
         </div>
@@ -595,18 +597,18 @@
       <!-- L3 -->
       <div class="lvl l3">
         <div class="paper">
-          <h4>§ 9 — Personal Data Breach</h4>
-          <p>In the event of a personal data breach, the Processor shall notify the Controller within
-          <span class="strike">ninety-six (96) hours</span> <span class="fixin">forty-eight (48) hours</span>
-          after becoming aware of it.</p>
-          <h4>§ 11 — International Transfers</h4>
-          <p class="mute">The Processor may transfer personal data outside the EEA for support purposes, subject to the safeguards set out in Annex II.</p>
+          <h4>§ 9 — Violazione dei dati personali</h4>
+          <p>In caso di violazione dei dati personali, il Responsabile notifica al Titolare entro
+          <span class="strike">novantasei (96) ore</span> <span class="fixin">quarantotto (48) ore</span>
+          dal momento in cui ne viene a conoscenza.</p>
+          <h4>§ 11 — Trasferimenti internazionali</h4>
+          <p class="mute">Il Responsabile può trasferire dati personali fuori dallo Spazio economico europeo per finalità di assistenza, fatte salve le garanzie di cui all’Allegato II.</p>
         </div>
         <div class="card">
-          <div class="score"><span class="n" id="scoreN">68</span><span class="lb">RISK SCORE<br>DPA · CLOUDSUITE</span></div>
+          <div class="score"><span class="n" id="scoreN">68</span><span class="lb">INDICE DI RISCHIO<br>DPA · CLOUDSUITE</span></div>
           <div class="redline">
-            <em>REDLINE PROPOSTA</em>
-            <q>“…within forty-eight (48) hours after becoming aware of a personal data breach.”</q>
+            <em>CORREZIONE PROPOSTA</em>
+            <q>«…notifica al Titolare entro quarantotto (48) ore dal momento in cui viene a conoscenza della violazione.»</q>
           </div>
           <div class="applied"><i class="dot" style="background:var(--teal);box-shadow:0 0 14px var(--teal)"></i>
             <span>REGISTRATO · <b>v.patermo</b> · 11:04 · <b>sha256 4f9c…e21</b></span></div>
@@ -748,7 +750,7 @@
         <div class="k">DIVISIONE 3 DI 5</div>
         <div class="card">
           <div class="hd"><i class="dot"></i><b>Questionari di sicurezza</b><span class="sev">ATTIVO</span></div>
-          <p class="docs"><span>DOCUMENTI TIPICI</span>questionari cliente · VSA · schede di controllo · evidenze allegate</p>
+          <p class="docs"><span>DOCUMENTI TIPICI</span>questionari cliente · schede di controllo · evidenze allegate</p>
           <ul class="risks">
             <li><i></i>Evidenza mancante sui controlli dichiarati<em>ISO 27001 A.5.19</em></li>
             <li><i></i>Risposte incoerenti fra due questionari<em>tracciabilità</em></li>
@@ -903,7 +905,7 @@
     <p class="eyebrow">SI ENTRA DA UN DOLORE ACUTO, SI CRESCE NEL CONTO ESISTENTE</p>
     <div class="tl">
       <div><b>Contratti e DPA</b><span>OGGI</span></div>
-      <div><b>Vendor risk</b><span>+6 MESI</span></div>
+      <div><b>Rischio fornitori</b><span>+6 MESI</span></div>
       <div><b>Sito e cookie</b><span>+12 MESI</span></div>
       <div><b>Marketing</b><span>+12 MESI</span></div>
       <div><b>Multi-reparto</b><span>+18 MESI</span></div>
@@ -1002,7 +1004,7 @@ function drawDocs(){
   c.width = w; c.height = h;
   var x = c.getContext('2d');
   var narrow = w < 560;
-  var cols = narrow ? 8 : 15, gap = narrow ? 16 : 26;
+  var cols = narrow ? 11 : 19, gap = narrow ? 14 : 24;
   var tw = (w - gap * (cols - 1)) / cols;
   var th = tw * 1.34;
   var rows = Math.ceil((h + gap) / (th + gap));
@@ -1083,7 +1085,7 @@ var LEVELS = [
   { el:$('.l1'), t:0.17, w:0.20, k:6, a:[0.03, 0.11, 0.26, 0.36] },
   { el:$('.l2'), t:0.38, w:0.20, k:6, a:[0.25, 0.33, 0.47, 0.56] },
   { el:$('.l3'), t:0.58, w:0.20, k:6, a:[0.46, 0.54, 0.66, 0.75] },
-  { el:$('.l4'), t:0.78, w:0.20, k:7, a:[0.66, 0.74, 0.86, 0.93] },
+  { el:$('.l4'), t:0.78, w:0.20, k:7, a:[0.63, 0.73, 0.87, 0.955], fisso:true, noBlur:true },
   { el:$('.l5'), t:0.96, w:0.24, k:7, a:[0.86, 0.93, 9,    9   ] }
 ];
 LEVELS = LEVELS.filter(function(L){ return !!L.el; });
@@ -1117,7 +1119,7 @@ function renderFilm(p){
       if (L.el.style.opacity !== '0'){ L.el.style.opacity = '0'; L.el.style.visibility = 'hidden'; }
       continue;
     }
-    s = Math.pow(L.k, (L.t - p) / L.w);
+    s = L.fisso ? 1 : Math.pow(L.k, (L.t - p) / L.w);
     /* oltre questa scala il livello è comunque quasi trasparente: rasterizzare
        una superficie gigante costerebbe solo picchi di frame */
     if (s > 4.2) s = 4.2;
@@ -1141,7 +1143,7 @@ function renderFilm(p){
   stage.style.setProperty('--f', ramp(p, 0.598, 0.645).toFixed(3));
   stage.style.setProperty('--h', ramp(p, 0.655, 0.700).toFixed(3));
   /* il volume */
-  stage.style.setProperty('--t', ramp(p, 0.735, 0.800).toFixed(3));
+  stage.style.setProperty('--t', ramp(p, 0.700, 0.780).toFixed(3));
   /* la firma */
   stage.style.setProperty('--d', ramp(p, 0.920, 0.965).toFixed(3));
   stage.style.setProperty('--w', ramp(p, 0.948, 0.996).toFixed(3));
@@ -1767,7 +1769,7 @@ function sentences(t){ return t.split(/(?<=[.;])\s+|\n+/).filter(function(x){ re
 var RULES = [
   { id:'DPA-CHK-09', sev:'ALTA', conf:96, fonte:'GDPR Art. 33(1)–(2)',
     tit:'Notifica della violazione oltre il termine di legge',
-    fix:'"…shall notify the Controller within forty-eight (48) hours after becoming aware of it."',
+    fix:'«…notifica al Titolare entro quarantotto (48) ore dal momento in cui ne viene a conoscenza.»',
     test:function(t){
       var ss = sentences(t);
       for (var i=0;i<ss.length;i++){
@@ -1781,7 +1783,7 @@ var RULES = [
     } },
   { id:'DPA-CHK-21', sev:'ALTA', conf:89, fonte:'GDPR Art. 44–46',
     tit:'Trasferimento fuori dallo SEE senza garanzie dichiarate',
-    fix:'"…subject to the Standard Contractual Clauses adopted by the European Commission."',
+    fix:'«…nel rispetto delle Clausole contrattuali standard adottate dalla Commissione europea.»',
     test:function(t){
       if (/(standard contractual clauses|clausole contrattuali standard|\bSCC\b|adequacy decision|decisione di adeguatezza|art\.?\s*46)/i.test(t)) return null;
       var ss = sentences(t);
@@ -1793,7 +1795,7 @@ var RULES = [
     } },
   { id:'DPA-CHK-04', sev:'ALTA', conf:94, fonte:'GDPR Art. 28(2)',
     tit:'Subresponsabile senza autorizzazione preventiva',
-    fix:'"…only with the Controller’s prior specific written authorisation."',
+    fix:'«…previa autorizzazione scritta e specifica del Titolare.»',
     test:function(t){
       if (/(prior (specific )?(written )?(authoris|authoriz|consent)|autorizzazione (scritta )?preventiva|previa autorizzazione)/i.test(t)) return null;
       var ss = sentences(t);
@@ -1805,7 +1807,7 @@ var RULES = [
     } },
   { id:'JUR-CHK-01', sev:'ALTA', conf:88, fonte:'Reg. UE 2016/679 · Considerando 101',
     tit:'Legge applicabile fuori dall’Unione',
-    fix:'"…governed by the laws of Italy, with exclusive jurisdiction of the courts of Milan."',
+    fix:'«…regolato dalla legge italiana, con foro esclusivo di Milano.»',
     test:function(t){
       var ss = sentences(t);
       for (var i=0;i<ss.length;i++){
@@ -1817,7 +1819,7 @@ var RULES = [
     } },
   { id:'NDA-CHK-03', sev:'MEDIA', conf:84, fonte:'Prassi contrattuale · durata determinata',
     tit:'Obbligo di riservatezza a durata indeterminata',
-    fix:'"…for a period of five (5) years from the date of disclosure."',
+    fix:'«…per un periodo di cinque (5) anni dalla data di comunicazione.»',
     test:function(t){
       var ss = sentences(t);
       for (var i=0;i<ss.length;i++){
@@ -1867,7 +1869,7 @@ var RULES = [
   { id:'VND-CHK-12', sev:'BASSA', conf:70, fonte:'ISO/IEC 27001:2022 · A.5.19',
     tit:'Nessuna evidenza di certificazione richiamata',
     test:function(t){
-      if (!/(security|sicurezza|fornitor|vendor|supplier|processor)/i.test(t)) return null;
+      if (!/(security|sicurezza|fornitor|vendor|supplier|processor|responsabil)/i.test(t)) return null;
       if (/(ISO\s*\/?\s*IEC?\s*27001|SOC\s*2|certificazion\w+|certificat\w+|attestazion\w+|evidenz\w+)/i.test(t)) return null;
       return { assente:true };
     } }
@@ -1928,7 +1930,7 @@ function render(found, tooShort){
     + '<div><span>REGOLA</span><b>' + esc(r.id) + '</b></div>'
     + '<div><span>CONFIDENZA</span><b><em>' + r.conf + '%</em></b></div>'
     + '</div>';
-  if (r.fix) html += '<div class="fix"><em>REDLINE PROPOSTA</em><q>' + esc(r.fix) + '</q></div>';
+  if (r.fix) html += '<div class="fix"><em>CORREZIONE PROPOSTA</em><q>' + esc(r.fix) + '</q></div>';
   html += '</div>';
 
   var rest = found.length - 1;
@@ -1951,22 +1953,22 @@ function render(found, tooShort){
 }
 
 var SAMPLE = [
-  'DATA PROCESSING AGREEMENT — CLOUDSUITE S.R.L.',
+  'ACCORDO SUL TRATTAMENTO DEI DATI — CLOUDSUITE S.R.L.',
   '',
-  '§ 9 — Personal Data Breach',
-  'In the event of a personal data breach, the Processor shall notify the Controller within ninety-six (96) hours after becoming aware of it.',
+  '§ 9 — Violazione dei dati personali',
+  'In caso di violazione dei dati personali, il Responsabile notifica al Titolare entro novantasei (96) ore dal momento in cui ne viene a conoscenza.',
   '',
-  '§ 10 — Sub-processors',
-  'The Processor may engage sub-processors for the performance of the Services and shall inform the Controller of any such change.',
+  '§ 10 — Subresponsabili',
+  'Il Responsabile può avvalersi di subresponsabili per l’esecuzione dei Servizi e ne informa il Titolare.',
   '',
-  '§ 11 — International Transfers',
-  'The Processor may transfer personal data outside the EEA for support purposes.',
+  '§ 11 — Trasferimenti internazionali',
+  'Il Responsabile può trasferire dati personali fuori dallo SEE per finalità di assistenza.',
   '',
-  '§ 14 — Liability',
-  'Each party shall be liable for direct damages arising out of this Agreement.',
+  '§ 14 — Responsabilità',
+  'Ciascuna parte risponde dei danni diretti derivanti dal presente Accordo.',
   '',
-  '§ 18 — Governing Law',
-  'This Agreement shall be governed by the laws of the State of Delaware.'
+  '§ 18 — Legge applicabile',
+  'Il presente Accordo è regolato dalla legge dello Stato del Delaware.'
 ].join('\n');
 
 function go(){
