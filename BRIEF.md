@@ -126,38 +126,55 @@ adattabilita'. I frame pre-estratti restano giusti solo per girato VERO
 
 ---
 
-## Secondo movimento: IL SISTEMA (sistema solare, reso dal vivo)
+## Secondo movimento: IL SISTEMA (radar a orbite, reso dal vivo)
 
 Sezione `#solar`, fra IL COSTO e COME FUNZIONA. Canvas 2D disegnato a ogni
-frame, DPR fino a 2, nessun asset: zero byte di payload.
+frame, DPR fino a 2, nessun asset.
 
-### Il racconto
-Cinque domini in orbita attorno a Kompla (il sole e' il marchio):
-QUESTIONARI (R 1.00) · FORNITORI (0.80) · DPA (0.62, con anelli) ·
-NDA (0.46) · AI ACT E NIS2 (0.32).
-- 0.00-0.09  i documenti in arrivo volano da fuori campo e prendono posto
-- 0.09-0.20  il sistema intero, etichette dei domini
-- tre tuffi: pianeta 0 -> 2 -> 4, ognuno con RITORNO in orbita
-- 0.80-1.00  la camera si chiude su Kompla
+NON SONO PIANETI. L'utente e' stato esplicito: un ibrido fra radar e orbite,
+fatto di PUNTI che sono i rischi, divisione per divisione. Non reintrodurre
+corpi con bande, terminatore e anelli: era la versione precedente ed e' stata
+scartata. Il punto agganciato cresce 3,1x e basta — oltre comincia a leggersi
+come un pianeta; e' il RETICOLO a dire "questo".
 
-L'utente ha chiesto esplicitamente l'andata-e-ritorno fra un pianeta e l'altro.
-Il vettore unico della skill e' comunque rispettato: i tuffi vanno dal raggio
-piu' esterno al piu' interno e ogni ritorno si ferma piu' vicino al centro del
-precedente (sc 0.52 -> 0.60 -> 0.70 -> 2.30). L'andirivieni e' il ritmo; la
-traiettoria complessiva non torna mai indietro.
+### Le cinque divisioni (una orbita ciascuna, dall'esterno all'interno)
+CONTRATTI E DPA (R 1.00) · FORNITORI E VENDOR RISK (0.82) ·
+QUESTIONARI DI SICUREZZA (0.64) · SITO, COOKIE E MARKETING (0.47) ·
+AI ACT E NIS2 (0.31)
+Ogni tuffo apre una scheda che spiega DOCUMENTI TIPICI e RISCHI TIPICI di
+quella divisione, ogni rischio con la sua fonte normativa.
 
-### Dettagli tecnici che contano
-- interpolazione della scala ESPONENZIALE, non lineare: lineare si legge come
-  uno strappo iniziale e una frenata finale
-- orbite ellittiche (FLAT 0.42): vista tre quarti, non un quadrante piatto
-- pianeti illuminati dal centro del sistema, con terminatore e bande
-- etichette sempre dal lato OPPOSTO al sole, altrimenti cadono sul marchio
-- campo stellare a scala FISSA con parallasse: non esplode durante i tuffi
-- la scheda del rilievo ha uno scrim proprio: il sole le passa dietro
+### Vincoli presi dall'utente — non violarli
+- il punto centrale e' Kompla e NON porta il marchio dentro: solo un punto
+  che pulsa con echi concentrici
+- NESSUN punto tocca mai il centro. Garantito per costruzione: le orbite hanno
+  raggio fisso (min R_MIN 0.31 contro R_CORE 0.018) e i documenti in arrivo
+  interpolano in COORDINATE POLARI, quindi il raggio scende solo fino a quello
+  della propria orbita. Non sostituire con un lerp cartesiano: una traiettoria
+  rettilinea puo' passare dal centro.
+- conta la dinamicita' e la bellezza del sistema che gira
 
-### Jank misurato (stesso container senza GPU)
-mediana 16,7ms · p95 16,7ms · max 16,8ms — ZERO frame persi, su due corse.
-E' la parte piu' fluida del sito, piu' del film in DOM (p95 33-50ms).
+### Dettagli che decidono se sembra costoso
+- scala interpolata in modo ESPONENZIALE, non lineare
+- etichette con ANGOLO PROPRIO per orbita (lab) + trattino di collegamento:
+  ancorate tutte a destra si accavallavano in una riga illeggibile
+- la camera durante un tuffo e' SPOSTATA per non mettere il punto sotto la
+  scheda (a destra su schermo largo, in basso su schermo stretto)
+- la spazzata si ritira quando la camera scende: da vicino laverebbe mezzo schermo
+- tacche di portata sulle orbite: e' cio' che lo rende un radar
+
+### Jank misurato
+mediana 16,7ms · p95 16,8ms · max 33,3ms — stabile su due corse.
+
+---
+
+## Il capitolo IL VOLUME del film (cap. 4)
+
+Era una parete di riquadri PIENI colorati: leggeva come una griglia di campioni
+colore, non come documenti. Ora e' disegnata A FILO DI LINEA — riquadri con
+contorno da 1px, due tratti interni a suggerire il testo, radi e quasi tutti
+spenti, con sei soli riquadri ambra. Molto piu' minimale e il numero "211"
+respira. Non tornare ai riquadri pieni.
 
 ---
 
