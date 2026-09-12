@@ -361,7 +361,7 @@
 <style>/* ============================================================
    IL SISTEMA — reso dal vivo su canvas, nessun frame, nessun JPEG
    ============================================================ */
-.solar{position:relative; height:820vh; background:#05090F}
+.solar{position:relative; height:1066vh; background:#05090F}
 .sstage{position:sticky; top:0; height:100vh; overflow:hidden; background:#05090F}
 .sstage canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
 .sveil{
@@ -446,7 +446,7 @@
   .smeter{display:none}
 }
 @media(max-width:760px){
-  .solar{height:700vh}
+  .solar{height:910vh}
   .sbeat h2{font-size:clamp(27px,7.6vw,38px)}
   .sbeat p{font-size:15px}
   .scard{bottom:calc(7vh + 200px)}
@@ -1283,10 +1283,24 @@ var SEG = [
 var DIVESEG = {};
 for (var _i=0;_i<SEG.length;_i++) if (SEG[_i].dive !== undefined) DIVESEG[SEG[_i].dive] = SEG[_i];
 
+/* Le schede NON usano beatAlpha: quella sale, tocca il picco e comincia
+   subito a sfumare, quindi la scheda non resta mai ferma a piena opacita'.
+   Qui serve un PLATEAU che duri quanto la sosta della camera. */
 var CARDS = $$('.scard').map(function(el){
-  var i = +el.dataset.i, g = DIVESEG[i];
-  return { el:el, i:i, in:g.a + 0.014, peak:g.a + 0.048, out:g.b + 0.006, shown:-1 };
+  var i = +el.dataset.i, g = DIVESEG[i], sp = g.b - g.a;
+  return { el:el, i:i,
+           in:   g.a + sp*0.08,
+           full: g.a + sp*0.30,     /* da qui in poi: opacita' piena */
+           hold: g.b - sp*0.04,     /* fino a qui non si muove */
+           out:  g.b + sp*0.14,
+           shown:-1 };
 });
+function cardAlpha(c, p){
+  if (p <= c.in || p >= c.out) return 0;
+  if (p < c.full) return ramp(p, c.in, c.full);
+  if (p < c.hold) return 1;
+  return 1 - ramp(p, c.hold, c.out);
+}
 var sBeats = $$('.sbeat').map(function(el){
   return { el:el, in:+el.dataset.in, peak:+el.dataset.peak, out:+el.dataset.out, shown:-1 };
 });
@@ -1331,7 +1345,11 @@ function sStateOf(k, p){
 function sCamera(p){
   var k = 0;
   while (k < SEG.length - 1 && p >= SEG[k].b) k++;
-  var g = SEG[k], u = smooth(ramp(p, g.a, g.b));
+  var g = SEG[k], uRaw = ramp(p, g.a, g.b);
+  /* nei tuffi la camera arriva presto e poi SOSTA: se continuasse a muoversi
+     fino all'ultimo istante, a scroll veloce la scheda passerebbe senza che
+     l'immagine si fermi mai. La sosta e' il tempo di lettura. */
+  var u = smooth(g.dive !== undefined ? clamp(uRaw / 0.55, 0, 1) : uRaw);
   var A = sStateOf(k-1, p), B = sStateOf(k, p);
   return {
     cx: lerp(A.cx, B.cx, u), cy: lerp(A.cy, B.cy, u),
@@ -1559,7 +1577,7 @@ function sRender(p){
   }
 
   for (i=0;i<CARDS.length;i++){
-    var c = CARDS[i], al4 = beatAlpha(c, p);
+    var c = CARDS[i], al4 = cardAlpha(c, p);
     if (al4 === c.shown) continue;
     c.shown = al4;
     c.el.style.opacity = al4.toFixed(3);

@@ -186,6 +186,30 @@ E' la texture del generato male. Ora:
 NON reintrodurre jitter casuale "per renderlo naturale": e' il difetto che
 l'utente ha chiamato per nome.
 
+### RESISTENZA ALLO SCROLL VELOCE — due cose, e una era un difetto logico
+Sintomo riferito: scorrendo veloce le schede delle singole divisioni non si
+facevano in tempo a leggere.
+
+1) LA CAUSA VERA: le schede usavano `beatAlpha`, che sale, tocca il picco e
+   comincia SUBITO a sfumare. Non c'era mai un tratto a opacita' piena: la
+   scheda era leggibile per ~100px di scroll. Ora hanno `cardAlpha` con un
+   PLATEAU (in -> full -> hold -> out) lungo quanto la sosta della camera.
+   Misurato: da ~100px a ~750-825px per scheda. NON rimettere beatAlpha sulle
+   schede: e' pensato per i beat del film, che hanno un'altra dinamica.
+
+2) SOSTA DELLA CAMERA: nei segmenti di tuffo l'interpolazione e' compressa
+   (uRaw / 0.55), quindi la camera arriva al 55% del segmento e poi STA FERMA.
+   Se continuasse a muoversi fino all'ultimo istante, l'immagine non si
+   fermerebbe mai e non ci sarebbe un momento di lettura.
+
+3) Sezione allungata del 30% (820vh -> 1066vh; mobile 700 -> 910vh), cioe' il
+   +30% di resistenza chiesto. Da sola non bastava: senza il plateau il
+   problema restava.
+
+Misura utile da rifare dopo ogni modifica al tempismo: px di scroll con
+opacita' della scheda > 0.9, campionando ogni 25px con 130ms di assestamento
+(sotto quella soglia si misura lo smorzamento, non la scheda).
+
 ### Le scie
 Un arco corto (0.16 rad) che segue esattamente l'orbita, con lineCap round.
 Si RITIRA durante l'aggancio (trailA = A * (1 - focus*0.88)): a reticolo aperto
