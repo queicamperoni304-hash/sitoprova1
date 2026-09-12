@@ -262,6 +262,11 @@ all'audit a pagamento.
 
 Squadra, ruoli aperti e investitori vivono su una pagina separata, linkata da
 nav, footer e da una riga sotto la CTA dell'audit. Il funnel finisce sull'audit.
+- OGGI CI SONO SOLO DUE COSE: il fondatore e lo studio legale partner.
+  NON c'e' un co-founder growth/brand: c'era, ed e' stato tolto su indicazione
+  dell'utente perche' non esiste. Non reintrodurlo da nessuna parte.
+  "Co-founder" compare solo come RUOLO OFFERTO (il CTO) e nel testo investitori
+  ("chiudere il co-founder tecnico"): quelli sono corretti, parlano di futuro.
 - advisor legale: A BORDO (studio partner, work-for-equity con vesting)
 - aperti: CTO co-founder, sales B2B, marketing
 - due form: candidature e investitori
