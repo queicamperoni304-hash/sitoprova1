@@ -9,6 +9,10 @@
   --ink:#080F1A; --navy:#111E33; --navy2:#16273F; --navy3:#1E2F49;
   --line:#2C4265; --dim:#64738C; --text:#B4C0D4; --bright:#EAF0F8;
   --amber:#F5A623; --teal:#1CBFB4; --red:#F2662D;
+  /* Colori del marchio, presi identici dal prodotto (komplatry1): il segno
+     sul sito e quello dentro la console devono essere lo stesso segno. */
+  --brand-amber:#F5A623; --brand-orange:#E8590C;
+  --brand-teal:#0FA9A0;  --brand-blue:#5B8DEF;
   --paper:#F3EFE6; --paper-ink:#1B1710; --paper-dim:#6E6353;
   --display:'Instrument Serif',Georgia,'Times New Roman',serif;
   --sans:'Instrument Sans',system-ui,-apple-system,Segoe UI,sans-serif;
@@ -42,13 +46,32 @@ a{color:inherit}
 }
 .site-header > *{pointer-events:auto}
 .brand{display:flex; align-items:center; gap:13px; text-decoration:none}
+/* Il marchio: orbite con corpi di colori diversi — i rischi che ruotano
+   attorno all'azienda, col nucleo al centro. Stessa geometria del prodotto.
+   Il moto E' il simbolo, non un effetto: chi chiede meno animazioni vede le
+   orbite ferme, che restano leggibili lo stesso. */
 .brand-mark{
-  width:38px; height:38px; border-radius:10px; flex:none;
-  background:var(--amber); color:#12203A;
-  display:grid; place-items:center;
-  font-family:var(--sans); font-weight:700; font-size:22px; line-height:1;
-  filter:drop-shadow(0 2px 14px rgba(245,166,35,.34));
+  width:40px; height:40px; flex:none; overflow:visible; display:block;
+  /* il marchio galleggia sopra il film, che passa da carta chiarissima a
+     quasi-nero: senza protezione gli anelli spariscono sui frame luminosi */
+  filter:drop-shadow(0 1px 9px rgba(4,9,16,.85));
 }
+.orbit-ring{fill:none; stroke:#4B6994; stroke-width:2.2; opacity:.95}
+.orbit-core{
+  fill:var(--brand-teal);
+  filter:drop-shadow(0 0 5px rgba(15,169,160,.6));
+}
+.orbit-body{filter:drop-shadow(0 0 4px rgba(0,0,0,.4))}
+.body-amber {fill:var(--brand-amber);  filter:drop-shadow(0 0 4px rgba(245,166,35,.7))}
+.body-orange{fill:var(--brand-orange); filter:drop-shadow(0 0 4px rgba(232,89,12,.7))}
+.body-blue  {fill:var(--brand-blue);   filter:drop-shadow(0 0 4px rgba(91,141,239,.65))}
+/* periodi diversi: i corpi non si allineano mai, il moto resta vivo */
+.orbit-spin{transform-origin:50px 50px; animation:orbit linear infinite}
+.orbit-spin-1{animation-duration:26s}
+.orbit-spin-2{animation-duration:17s; animation-direction:reverse}
+.orbit-spin-3{animation-duration:11s}
+@keyframes orbit{ to{ transform:rotate(360deg) } }
+@media(prefers-reduced-motion:reduce){ .orbit-spin{animation:none} }
 .brand-word{
   font-family:var(--sans); font-weight:600; font-size:13.5px;
   letter-spacing:.42em; text-indent:.42em; color:#fff;

@@ -11,7 +11,7 @@
 <meta property="og:type" content="website">
 <link rel="preload" href="fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/instrument-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23F5A623'/%3E%3Ctext x='32' y='45' font-family='Helvetica,Arial,sans-serif' font-weight='700' font-size='40' fill='%2312203A' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>/* font serviti dal sito: nessuna richiesta a terzi */
 @font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/instrument-serif-latin-400-normal.woff2') format('woff2')}
 @font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url('fonts/instrument-serif-latin-400-italic.woff2') format('woff2')}
@@ -541,7 +541,7 @@
 <body>
 
 <header class="site-header">
-  <a class="brand" href="#top"><span class="brand-mark">K</span><span class="brand-word">KOMPLA</span></a>
+  <a class="brand" href="#top"><svg class="brand-mark" viewBox="0 0 100 100" role="img" aria-label="Kompla"><circle cx="50" cy="50" r="42" class="orbit-ring"/><circle cx="50" cy="50" r="28" class="orbit-ring"/><circle cx="50" cy="50" r="15" class="orbit-ring"/><circle cx="50" cy="50" r="7" class="orbit-core"/><g class="orbit-spin orbit-spin-1"><circle cx="92" cy="50" r="7.5" class="body-amber"/></g><g class="orbit-spin orbit-spin-2"><circle cx="22" cy="50" r="6.5" class="body-orange"/></g><g class="orbit-spin orbit-spin-3"><circle cx="50" cy="35" r="5.5" class="body-blue"/></g></svg><span class="brand-word">KOMPLA</span></a>
   <nav class="nav">
     <a href="#prova">Provalo</a>
     <a href="#come">Come funziona</a>
@@ -952,7 +952,7 @@
 
 <footer class="site-footer">
   <div>
-    <div class="fb"><span class="brand-mark" style="width:32px;height:32px;font-size:19px;border-radius:9px">K</span>
+    <div class="fb"><svg class="brand-mark" style="width:32px;height:32px" viewBox="0 0 100 100" role="img" aria-label="Kompla"><circle cx="50" cy="50" r="42" class="orbit-ring"/><circle cx="50" cy="50" r="28" class="orbit-ring"/><circle cx="50" cy="50" r="15" class="orbit-ring"/><circle cx="50" cy="50" r="7" class="orbit-core"/><g class="orbit-spin orbit-spin-1"><circle cx="92" cy="50" r="7.5" class="body-amber"/></g><g class="orbit-spin orbit-spin-2"><circle cx="22" cy="50" r="6.5" class="body-orange"/></g><g class="orbit-spin orbit-spin-3"><circle cx="50" cy="35" r="5.5" class="body-blue"/></g></svg>
       <span class="brand-word" style="color:var(--text)">KOMPLA</span></div>
     <small style="margin-top:16px">CONTINUOUS BUSINESS RISK INTELLIGENCE<br>MILANO, ITALIA</small>
   </div>
@@ -1988,5 +1988,6 @@ ta.addEventListener('keydown', function(e){
 });
 })();
 </script>
+<script src="favicon.js" defer></script>
 </body>
 </html>

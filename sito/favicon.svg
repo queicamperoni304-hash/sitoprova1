@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Il marchio Kompla: orbite con corpi di colori diversi — i rischi che
+       ruotano attorno all'azienda, col nucleo al centro. Stessa geometria del
+       componente OrbitMark, così l'icona della scheda e quella in pagina sono
+       lo stesso segno. -->
+  <rect width="100" height="100" rx="22" fill="#0C1626" />
+
+  <g fill="none" stroke="#2C4265" stroke-width="3.5">
+    <circle cx="50" cy="50" r="38" />
+    <circle cx="50" cy="50" r="25" />
+    <circle cx="50" cy="50" r="14" />
+  </g>
+
+  <circle cx="50" cy="50" r="7" fill="#0FA9A0" />
+  <circle cx="88" cy="50" r="7" fill="#F5A623" />
+  <circle cx="25" cy="50" r="6" fill="#E8590C" />
+  <circle cx="50" cy="36" r="5" fill="#5B8DEF" />
+</svg>

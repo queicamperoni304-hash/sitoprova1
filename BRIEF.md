@@ -300,3 +300,35 @@ un solo segmento acceso si legge come una barra di caricamento rotta. Ora:
 
 Se un modulo entra davvero in produzione, si sposta il confine: `:first-child`
 diventa `:nth-child(-n+2)` per i solidi, e si aggiorna l'etichetta.
+
+---
+
+## Il marchio — orbite, non piu' la K
+
+Il segno ora e' quello VERO del prodotto, preso da `queicamperoni304-hash/komplatry1`
+(`frontend/src/components/Logo.tsx`, `src/lib/favicon.ts`, `public/favicon.svg`):
+tre orbite, nucleo teal al centro, tre corpi che girano — ambra, arancio, blu.
+Il moto E' il simbolo, non un effetto.
+
+Geometria e periodi sono IDENTICI al prodotto, e vanno tenuti tali: il segno
+sul sito e quello dentro la console devono essere lo stesso segno.
+  anelli r = 42 / 28 / 15 · nucleo r = 7
+  corpi  r 42 ambra #F5A623 · 26s   |  r 28 arancio #E8590C · 17s al contrario
+         r 15 blu   #5B8DEF · 11s
+  fondo favicon #0C1626 · anelli #2C4265 · nucleo #0FA9A0
+Periodi diversi = i corpi non si allineano mai.
+
+UNICO scostamento consapevole: sul sito gli anelli in pagina sono #4B6994 e non
+#2C4265, e il marchio ha un drop-shadow. Motivo: qui il logo galleggia sopra il
+film, che passa da carta chiarissima a quasi-nero, e col valore del prodotto
+(pensato per un fondo console sempre scuro) sui frame luminosi sparivano.
+La favicon invece usa i valori originali, perche' ha il suo fondo.
+
+### Favicon animata (`sito/favicon.js`)
+Un SVG con animazione dichiarativa NON si muove nella scheda di Chrome: il
+browser lo rasterizza una volta. L'unico modo che funziona e' ridisegnare su
+canvas e sostituire l'href del link a ogni frame — e' quello che fa il file.
+~12 fps, si ferma con `document.hidden`, e non parte affatto sotto
+`prefers-reduced-motion` (in quel caso resta `favicon.svg`).
+VERIFICATO: 4 frame consecutivi tutti distinti; con movimento ridotto l'href
+resta favicon.svg e le orbite in pagina sono ferme.
