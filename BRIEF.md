@@ -113,68 +113,97 @@ DA RIVERIFICARE su hardware vero prima di dire che passa.
 
 ---
 
-## Secondo movimento: IL FILTRO CONTINUO (film radar scrubbato)
+## RIMOSSO — il film radar scrubbato (era: secondo movimento)
 
-Sezione `#radarFilm`, tra IL COSTO e COME FUNZIONA. E' un film VERO scrubbato dallo
-scroll con il motore della Corsia B (canvas + frame JPEG pre-estratti, finestra
-scorrevole di ImageBitmap, playhead smorzato, fallback sul frame piu' vicino,
-fit con soglia di ritaglio 0.22, DPR 1.0). I frame non vengono da un modello video:
-li genera `tools/gen-radar.js` in 6 secondi, a costo zero.
-
-Perche' generati e non comprati: il radar e' geometria vettoriale precisa (anelli
-concentrici del marchio, spazzata, documenti, arco di copertura). Un modello
-image-to-video lo restituirebbe sfocato e non deterministico.
-
-### Il film
-- vettore unico: la spazzata gira solo in avanti, 3,25 giri su tutto il film
-- 72 documenti nascono in modo scaglionato; quando la spazzata li raggiunge si
-  risolvono: 24% ambra (rischio), il resto teal (pulito)
-- l'arco teal sull'anello esterno cresce con la copertura: e' la trasformazione
-- al frame finale 69 su 72 sono risolti — gli ultimi 3 restano aperti, perche'
-  "in continuo" significa che non finisce mai
-- 144 frame per passaggio, due passaggi: desktop 1440x810 e un VERO 9:16 640x1138
-  (stessa lunghezza, il playhead mappa 1:1, scambio al breakpoint chiudendo le
-  vecchie ImageBitmap)
-- peso: 6,8 MB in totale, ~26 KB a frame
-
-### cov.json
-`sito/radar/cov.json` e' la serie della copertura reale frame per frame, esportata
-dal generatore. Il contatore in pagina LEGGE quella serie: non e' una stima.
-Se rigeneri i frame, cov.json si riscrive da solo. Non scriverlo a mano.
-
-### Jank misurato sul radar (stesso container senza GPU)
-mediana 16,7ms · p95 16,8ms · max 33,4ms — stabile su due corse.
-E' il pezzo PIU' FLUIDO della pagina, piu' del film in puro codice: e' la prova
-che il blit di una texture batte la ri-rasterizzazione del DOM a scala variabile.
-
-### Rigenerare
-    CHROME_PATH=<chrome> node tools/gen-radar.js 144
-Cambiare il seme o TURNS in tools/radar-gen.html cambia il film. Deterministico:
-stesso seme, stessi frame.
-
-### Contatto
-L'indirizzo del founder e' stato sostituito con `ciao@kompla.io` — FITTIZIO,
-su richiesta. Va cambiato con quello vero prima di pubblicare.
+Rimosso su richiesta: l'utente lo trovava di bassa qualita', e aveva ragione.
+Erano frame JPEG pre-renderizzati a ~26 KB l'uno: artefatti di compressione,
+bordi sottili impastati, nessun adattamento al DPR dello schermo. Cancellati
+sito/radar/ (6,8 MB), tools/gen-radar.js e tools/radar-gen.html.
+LEZIONE: per geometria vettoriale (anelli, orbite, tratti sottili) il rendering
+dal vivo su canvas batte i frame pre-estratti su ogni fronte — qualita', peso,
+adattabilita'. I frame pre-estratti restano giusti solo per girato VERO
+(Corsia B), dove non c'e' modo di ridisegnare la scena nel browser.
 
 ---
 
-## Deploy su Railway
+## Secondo movimento: IL SISTEMA (sistema solare, reso dal vivo)
 
-Railpack analizza la RADICE del repo. Prima di questo commit trovava solo
-.claude/ sito/ tools/ .gitignore BRIEF.md — nessun package.json, nessun
-index.html in radice — ripiegava sul provider Shell e falliva la build.
+Sezione `#solar`, fra IL COSTO e COME FUNZIONA. Canvas 2D disegnato a ogni
+frame, DPR fino a 2, nessun asset: zero byte di payload.
 
-Soluzione: `package.json` in radice con `start`, e `server.js`, un server
-statico SENZA DIPENDENZE che serve `sito/`.
-- ascolta su `process.env.PORT` (Railway la assegna) e su 0.0.0.0 — entrambe
-  obbligatorie, con l'host sbagliato il health check fallisce in silenzio
-- blocca il path traversal fuori da sito/
-- radar/, fonts/ e vendor/ sono immutabili: max-age=31536000, immutable
-- index.html e' no-cache, altrimenti un aggiornamento non arriva mai
+### Il racconto
+Cinque domini in orbita attorno a Kompla (il sole e' il marchio):
+QUESTIONARI (R 1.00) · FORNITORI (0.80) · DPA (0.62, con anelli) ·
+NDA (0.46) · AI ACT E NIS2 (0.32).
+- 0.00-0.09  i documenti in arrivo volano da fuori campo e prendono posto
+- 0.09-0.20  il sistema intero, etichette dei domini
+- tre tuffi: pianeta 0 -> 2 -> 4, ognuno con RITORNO in orbita
+- 0.80-1.00  la camera si chiude su Kompla
 
-NON spostare il sito in radice per far contento il builder: il server e' due
-file e tiene separate le cose.
+L'utente ha chiesto esplicitamente l'andata-e-ritorno fra un pianeta e l'altro.
+Il vettore unico della skill e' comunque rispettato: i tuffi vanno dal raggio
+piu' esterno al piu' interno e ogni ritorno si ferma piu' vicino al centro del
+precedente (sc 0.52 -> 0.60 -> 0.70 -> 2.30). L'andirivieni e' il ritmo; la
+traiettoria complessiva non torna mai indietro.
 
-Verificato in locale: tutte le rotte 200 con il content-type giusto, traversal
-403/404, PORT rispettata, pagina che rende davvero servita da questo server
-(non solo file che arrivano).
+### Dettagli tecnici che contano
+- interpolazione della scala ESPONENZIALE, non lineare: lineare si legge come
+  uno strappo iniziale e una frenata finale
+- orbite ellittiche (FLAT 0.42): vista tre quarti, non un quadrante piatto
+- pianeti illuminati dal centro del sistema, con terminatore e bande
+- etichette sempre dal lato OPPOSTO al sole, altrimenti cadono sul marchio
+- campo stellare a scala FISSA con parallasse: non esplode durante i tuffi
+- la scheda del rilievo ha uno scrim proprio: il sole le passa dietro
+
+### Jank misurato (stesso container senza GPU)
+mediana 16,7ms · p95 16,7ms · max 16,8ms — ZERO frame persi, su due corse.
+E' la parte piu' fluida del sito, piu' del film in DOM (p95 33-50ms).
+
+---
+
+## LA PROVA — demo reale, sezione `#prova`
+
+Motore di regole deterministico che gira NEL BROWSER. Nessuna rete, nessun
+backend: il testo dell'utente non lascia la pagina, e il copy lo dichiara.
+
+12 regole vere con fonte normativa: finestra di notifica > 72h (Art. 33),
+trasferimento extra-SEE senza garanzie (Art. 44-46), subresponsabile senza
+autorizzazione (Art. 28(2)), legge applicabile extra-UE, durata indeterminata
+dell'NDA, audit / cancellazione / riservatezza / Art. 32 / diritti
+dell'interessato assenti, massimale di responsabilita' assente, nessuna
+certificazione richiamata.
+
+REGOLE DI ONESTA' — non violarle:
+- l'estratto mostrato e' testo REALE del documento dell'utente, evidenziato
+- il conteggio delle rilevazioni bloccate e' quello VERO, mai gonfiato
+- se non trova nulla lo dice, e non finge che il documento sia a posto
+- il copy dice "anteprima su 12 regole", mai "questa e' l'analisi di Kompla"
+- VERIFICATO: 11 rilevazioni sul DPA di esempio, 0 su un DPA scritto bene
+  (le regole discriminano davvero) e il payload XSS non viene eseguito
+
+Il gate sblocca UNA rilevazione, le altre restano sfocate e rimandano
+all'audit a pagamento.
+
+---
+
+## team.html — fuori dal funnel
+
+Squadra, ruoli aperti e investitori vivono su una pagina separata, linkata da
+nav, footer e da una riga sotto la CTA dell'audit. Il funnel finisce sull'audit.
+- advisor legale: A BORDO (studio partner, work-for-equity con vesting)
+- aperti: CTO co-founder, sales B2B, marketing
+- due form: candidature e investitori
+
+I FORM NON HANNO BACKEND: compongono un'email e aprono il client di posta.
+E' scritto nel modulo stesso. Non fingere un invio che non avviene. Se in
+futuro serve un vero invio, ci vuole un servizio esterno o un endpoint sul
+server Node.
+
+---
+
+## base.css — sistema di design condiviso
+
+Token, reset, header, sezioni, griglie, tile, piani, bottone, CTA, form e
+footer stanno in `sito/base.css`, linkato da index.html e team.html.
+Restano inline in index.html solo gli stili del film, del sistema solare e
+della demo. MODIFICARE I COMPONENTI CONDIVISI SOLO IN base.css.

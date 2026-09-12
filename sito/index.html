@@ -26,74 +26,8 @@
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2')}
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2')}
 </style>
-<style>
-/* ============================================================
-   KOMPLA — «NOVANTASEI ORE»
-   ============================================================ */
-:root{
-  --ink:#080F1A; --navy:#111E33; --navy2:#16273F; --navy3:#1E2F49;
-  --line:#2C4265; --dim:#64738C; --text:#B4C0D4; --bright:#EAF0F8;
-  --amber:#F5A623; --teal:#1CBFB4; --red:#F2662D;
-  --paper:#F3EFE6; --paper-ink:#1B1710; --paper-dim:#6E6353;
-  --display:'Instrument Serif',Georgia,'Times New Roman',serif;
-  --sans:'Instrument Sans',system-ui,-apple-system,Segoe UI,sans-serif;
-  --doc:'Spectral',Georgia,serif;
-  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
-  --ease:cubic-bezier(.22,.61,.36,1);
-  --gut:clamp(20px,5vw,72px);
-}
-*,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{
-  margin:0; background:var(--ink); color:var(--text);
-  font-family:var(--sans); font-size:17px; line-height:1.62;
-  -webkit-font-smoothing:antialiased; overflow-x:hidden;
-}
-img{max-width:100%}
-a{color:inherit}
-::selection{background:var(--amber); color:#1B1305}
-
-/* ---------- chrome ---------- */
-.site-header{
-  position:fixed; inset:0 0 auto 0; z-index:60;
-  display:flex; align-items:center; justify-content:space-between;
-  gap:24px; padding:18px var(--gut);
-  color:#fff; pointer-events:none;
-}
-.site-header::before{
-  content:""; position:absolute; inset:0 0 auto 0; height:230%; z-index:-1;
-  background:linear-gradient(to bottom,rgba(4,8,15,.72),rgba(4,8,15,0));
-  opacity:1; transition:opacity .5s var(--ease);
-}
-.site-header > *{pointer-events:auto}
-.brand{display:flex; align-items:center; gap:13px; text-decoration:none}
-.brand-mark{
-  width:38px; height:38px; border-radius:10px; flex:none;
-  background:var(--amber); color:#12203A;
-  display:grid; place-items:center;
-  font-family:var(--sans); font-weight:700; font-size:22px; line-height:1;
-  filter:drop-shadow(0 2px 14px rgba(245,166,35,.34));
-}
-.brand-word{
-  font-family:var(--sans); font-weight:600; font-size:13.5px;
-  letter-spacing:.42em; text-indent:.42em; color:#fff;
-  text-shadow:0 1px 20px rgba(0,0,0,.6);
-}
-.nav{display:flex; align-items:center; gap:30px}
-.nav a{
-  font-size:13.5px; letter-spacing:.02em; color:#fff; text-decoration:none;
-  opacity:.76; transition:opacity .3s; text-shadow:0 1px 18px rgba(0,0,0,.6);
-}
-.nav a:hover{opacity:1}
-.nav .btn-mini{
-  opacity:1; padding:9px 18px; border-radius:999px;
-  border:1px solid rgba(245,166,35,.5); color:var(--amber);
-  background:rgba(245,166,35,.07); backdrop-filter:blur(6px);
-}
-.nav .btn-mini:hover{background:rgba(245,166,35,.16)}
-@media(max-width:860px){ .nav a:not(.btn-mini){display:none} .brand-word{font-size:11.5px} }
-
-/* ============================================================
+<link rel="stylesheet" href="base.css">
+<style>/* ============================================================
    IL FILM
    ============================================================ */
 .film{position:relative; height:940vh; background:var(--ink)}
@@ -424,257 +358,161 @@ a{color:inherit}
   .beat p{font-size:15px; margin-top:14px}
 }
 </style>
-<style>
-/* ============================================================
-   SOTTO IL FILM
+<style>/* ============================================================
+   IL SISTEMA — reso dal vivo su canvas, nessun frame, nessun JPEG
    ============================================================ */
-.section{
-  position:relative; min-height:min(92vh,940px);
-  display:flex; align-items:center;
-  padding:clamp(90px,12vh,150px) var(--gut);
-  border-top:1px solid rgba(44,66,101,.34);
-}
-.wrap{width:100%; max-width:1180px; margin:0 auto}
-.section .wrap > *{
-  opacity:0; transform:translateY(28px);
-  transition:opacity .95s var(--ease),transform .95s var(--ease);
-}
-.section.in .wrap > *{opacity:1; transform:none}
-.section.in .wrap > *:nth-child(2){transition-delay:.09s}
-.section.in .wrap > *:nth-child(3){transition-delay:.18s}
-.section.in .wrap > *:nth-child(4){transition-delay:.27s}
-.section.in .wrap > *:nth-child(5){transition-delay:.36s}
-
-.eyebrow{
-  font-family:var(--mono); font-size:10.5px; letter-spacing:.26em;
-  color:var(--amber); margin:0 0 26px;
-}
-h2.big{
-  font-family:var(--display); font-weight:400; margin:0 0 26px;
-  font-size:clamp(34px,5.4vw,76px); line-height:1.03; letter-spacing:-.02em;
-  color:var(--bright); max-width:19ch;
-}
-h2.big em{font-style:italic; color:var(--amber)}
-h3{
-  font-family:var(--sans); font-weight:600; font-size:19px;
-  letter-spacing:-.01em; color:var(--bright); margin:0 0 10px;
-}
-.lede{font-size:clamp(17px,1.55vw,21px); color:var(--text); max-width:56ch; margin:0 0 44px}
-p{margin:0 0 18px}
-.muted{color:var(--dim)}
-.rule{height:1px; background:rgba(44,66,101,.5); margin:52px 0; border:0}
-
-#come{min-height:auto; padding-bottom:clamp(20px,3vh,40px)}
-#pilastri{min-height:auto; padding-top:0; border-top:0}
-.flow{border-top:0}
-
-/* ============================================================
-   IL FILTRO CONTINUO — film radar scrubbato
-   ============================================================ */
-.radar{position:relative; height:470vh; background:#05090F}
-.rstage{position:sticky; top:0; height:100vh; overflow:hidden; background:#05090F}
-.rstage canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
-.rveil{
+.solar{position:relative; height:660vh; background:#05090F}
+.sstage{position:sticky; top:0; height:100vh; overflow:hidden; background:#05090F}
+.sstage canvas{position:absolute; inset:0; width:100%; height:100%; display:block}
+.sveil{
   position:absolute; inset:0; z-index:4; pointer-events:none;
-  background:linear-gradient(to bottom,var(--ink) 0%,rgba(8,15,26,0) 15%,
-             rgba(5,9,15,0) 78%,rgba(8,15,26,.55) 100%);
+  background:linear-gradient(to bottom,var(--ink) 0%,rgba(8,15,26,0) 13%,
+             rgba(5,9,15,0) 80%,rgba(8,15,26,.5) 100%);
 }
-/* la cucitura vera: entra solo in coda e passa SOPRA i beat, altrimenti
-   il testo resta appeso sotto l'header mentre la sezione se ne va */
-.rseam{
-  position:absolute; inset:auto 0 0 0; height:82vh; z-index:12; pointer-events:none;
-  opacity:0;
+.sseam{
+  position:absolute; inset:auto 0 0 0; height:82vh; z-index:14; pointer-events:none; opacity:0;
   background:linear-gradient(to bottom,rgba(8,15,26,0),rgba(8,15,26,.5) 32%,var(--ink) 74%);
 }
-.rbeats{position:absolute; inset:0; z-index:6; pointer-events:none}
-.rbeat{
+.sbeats{position:absolute; inset:0; z-index:8; pointer-events:none}
+.sbeat{
   position:absolute; left:var(--gut); bottom:clamp(84px,13vh,150px);
-  width:min(620px,calc(100vw - var(--gut) * 2)); opacity:0;
+  width:min(560px,calc(100vw - var(--gut) * 2)); opacity:0;
 }
-.rbeat::before{
+.sbeat::before{
   content:""; position:absolute; z-index:-1; inset:-140% -30% -150% -18%;
-  background:radial-gradient(58% 56% at 24% 52%,rgba(3,7,14,.86),rgba(3,7,14,.5) 46%,transparent 76%);
+  background:radial-gradient(58% 56% at 24% 52%,rgba(3,7,14,.88),rgba(3,7,14,.5) 46%,transparent 76%);
 }
-.rbeat h2{
+.sbeat h2{
   font-family:var(--display); font-weight:400; margin:0;
-  font-size:clamp(32px,4.6vw,64px); line-height:1.05; letter-spacing:-.018em;
-  color:#fff; text-shadow:0 2px 34px rgba(0,0,0,.8);
+  font-size:clamp(31px,4.4vw,60px); line-height:1.05; letter-spacing:-.018em;
+  color:#fff; text-shadow:0 2px 34px rgba(0,0,0,.85);
 }
-.rbeat p{
-  margin:18px 0 0; max-width:32em; font-size:clamp(15px,1.3vw,18px);
-  color:#C9D4E4; text-shadow:0 1px 22px rgba(0,0,0,.9);
+.sbeat p{
+  margin:18px 0 0; max-width:31em; font-size:clamp(15px,1.3vw,18px);
+  color:#C9D4E4; text-shadow:0 1px 22px rgba(0,0,0,.92);
 }
-.rmeter{
-  position:absolute; right:var(--gut); bottom:clamp(84px,13vh,150px);
-  z-index:7; text-align:right; pointer-events:none; opacity:0;
-  transition:opacity .7s var(--ease);
+/* la scheda del rilievo: stessa grammatica della citazione nel film */
+.scards{position:absolute; inset:0; z-index:9; pointer-events:none}
+.scard{
+  position:absolute; right:var(--gut); top:50%; width:min(390px,calc(100vw - var(--gut) * 2));
+  transform:translateY(-50%); opacity:0;
 }
-.rmeter.on{opacity:1}
-.rmeter .n{
-  display:block; font-family:var(--display); font-size:clamp(40px,4.6vw,64px);
-  line-height:.9; color:var(--teal); text-shadow:0 2px 26px rgba(0,0,0,.9);
+.scard::before{
+  content:""; position:absolute; z-index:-1; inset:-22% -18% -26% -16%;
+  background:radial-gradient(62% 58% at 52% 50%,rgba(4,8,15,.9),rgba(4,8,15,.6) 52%,transparent 80%);
 }
-.rmeter .l{
-  display:block; margin-top:12px; font-family:var(--mono); font-size:10px;
-  letter-spacing:.22em; color:var(--text); text-shadow:0 1px 16px rgba(0,0,0,.95);
+.scard .k{
+  font-family:var(--mono); font-size:10px; letter-spacing:.2em; color:var(--amber);
+  margin-bottom:14px; text-shadow:0 1px 14px rgba(0,0,0,.9);
 }
-.rload{
-  position:absolute; left:50%; bottom:11vh; transform:translateX(-50%); z-index:8;
-  width:min(220px,42vw); height:2px; background:rgba(180,192,212,.2);
-  transition:opacity .6s var(--ease);
+.scard .note{
+  margin:16px 0 0; font-size:14px; line-height:1.6; color:var(--text);
+  text-shadow:0 1px 16px rgba(0,0,0,.9);
 }
-.rload i{display:block; height:100%; width:0; background:var(--amber); box-shadow:0 0 10px var(--amber)}
-.rload.done{opacity:0}
+.smeter{
+  position:absolute; left:var(--gut); top:calc(50% + 0px); z-index:9;
+  transform:translateY(-50%); pointer-events:none; opacity:0;
+  transition:opacity .5s var(--ease);
+}
+.smeter.on{opacity:1}
+@media(max-width:900px){
+  .scard{
+    right:auto; left:var(--gut); top:auto; bottom:calc(clamp(84px,13vh,150px) + 210px);
+    transform:none; width:min(420px,calc(100vw - var(--gut) * 2));
+  }
+  .smeter{display:none}
+}
 @media(max-width:760px){
-  .radar{height:400vh}
-  .rmeter{bottom:auto; top:clamp(76px,11vh,110px)}
-  .rmeter .n{font-size:38px}
-  .rbeat h2{font-size:clamp(27px,7.8vw,38px)}
-  .rbeat p{font-size:15px}
+  .solar{height:560vh}
+  .sbeat h2{font-size:clamp(27px,7.6vw,38px)}
+  .sbeat p{font-size:15px}
+  .scard{bottom:calc(7vh + 200px)}
+  .sbeat{bottom:7vh}
 }
-@media(prefers-reduced-motion:reduce){ .radar{height:100vh} .rload{display:none} }
+@media(prefers-reduced-motion:reduce){ .solar{height:100vh} }
 
-/* atterraggio dal film */
-#manifesto{
-  border-top:0;
-  background:linear-gradient(to bottom,var(--ink) 0%,#0C1729 44%,var(--navy) 100%);
+/* ============================================================
+   LA PROVA — motore di regole eseguito nel browser
+   ============================================================ */
+#prova{background:linear-gradient(to bottom,var(--ink) 0%,#0B1526 50%,var(--ink) 100%)}
+.dwrap{display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,3vw,44px); align-items:start}
+/* l'esito puo' essere lungo: il pannello di input resta appeso accanto */
+@media(min-width:981px){ .dwrap > .dpane:first-child{position:sticky; top:96px} }
+@media(max-width:980px){ .dwrap{grid-template-columns:1fr} }
+.dpane{
+  background:linear-gradient(170deg,rgba(30,47,73,.5),rgba(15,27,46,.55));
+  border:1px solid rgba(44,66,101,.8); border-radius:18px; padding:22px;
 }
+.dpane .lab{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.18em;
+  color:var(--amber); display:block; margin-bottom:14px;
+}
+#dtext{
+  width:100%; min-height:270px; resize:vertical; display:block;
+  background:rgba(5,10,19,.62); color:var(--bright);
+  border:1px solid rgba(44,66,101,.9); border-radius:12px; padding:16px 17px;
+  font-family:var(--doc); font-size:14.5px; line-height:1.62;
+}
+#dtext:focus{outline:none; border-color:rgba(245,166,35,.6); box-shadow:0 0 0 3px rgba(245,166,35,.1)}
+#dtext::placeholder{color:#55627A}
+.drow{display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:16px}
 
-/* griglie */
-.g3{display:grid; grid-template-columns:repeat(3,1fr); gap:26px}
-.g4{display:grid; grid-template-columns:repeat(4,1fr); gap:20px}
-.g2{display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(30px,5vw,80px); align-items:center}
-@media(max-width:900px){ .g3,.g4,.g2{grid-template-columns:1fr} }
+.dnote{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; line-height:1.85;
+  color:var(--dim); margin:16px 0 0;
+}
+.dnote b{color:var(--teal); font-weight:500}
+.dempty{
+  font-size:15px; color:var(--dim); line-height:1.7; margin:0;
+  border-left:2px solid rgba(44,66,101,.9); padding-left:16px;
+}
+.dhead{display:flex; align-items:baseline; gap:14px; margin-bottom:18px; flex-wrap:wrap}
+.dhead .n{font-family:var(--display); font-size:46px; line-height:.9; color:var(--amber)}
+.dhead .t{font-size:15px; color:var(--text)}
+.find{
+  border:1px solid rgba(44,66,101,.8); border-radius:14px; padding:18px 18px 16px;
+  background:rgba(11,21,37,.72); margin-bottom:12px;
+}
+.find .ft{display:flex; align-items:center; gap:10px; margin-bottom:13px}
+.find .ft b{font-size:15px; font-weight:600; color:var(--bright); letter-spacing:-.01em}
+.find blockquote{
+  margin:0 0 13px; padding:11px 13px; border-radius:9px;
+  background:linear-gradient(168deg,#FBF8F1,#EDE7DA); color:#2A231A;
+  font-family:var(--doc); font-size:13px; line-height:1.6;
+}
+.find blockquote mark{background:rgba(245,166,35,.42); color:inherit; padding:1px 2px; border-radius:2px}
+.fix{
+  border:1px solid rgba(28,191,180,.42); background:rgba(28,191,180,.08);
+  border-radius:9px; padding:11px 13px; margin-top:11px;
+}
+.fix em{
+  font-style:normal; font-family:var(--mono); font-size:9.5px; letter-spacing:.14em;
+  color:var(--teal); display:block; margin-bottom:6px;
+}
+.fix q{font-family:var(--mono); font-size:11px; color:var(--bright); quotes:none; line-height:1.55}
+.locked{position:relative; border-radius:14px; overflow:hidden; margin-top:16px}
+.locked .lk{
+  display:flex; align-items:center; gap:12px; padding:15px 18px;
+  border:1px solid rgba(44,66,101,.7); border-top:0; background:rgba(11,21,37,.5);
+}
+.locked .lk:first-child{border-top:1px solid rgba(44,66,101,.7); border-radius:14px 14px 0 0}
+.locked .lk:last-of-type{border-radius:0 0 14px 14px}
+.locked .lk b{
+  flex:1; font-weight:500; font-size:14.5px; color:var(--text);
+  filter:blur(4.5px); user-select:none;
+}
+.locked .lk .pad{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; color:var(--dim);
+  border:1px solid rgba(44,66,101,.9); border-radius:5px; padding:3px 8px;
+}
+.gate{
+  margin-top:18px; padding:20px; border-radius:14px; text-align:center;
+  border:1px solid rgba(245,166,35,.45);
+  background:linear-gradient(170deg,rgba(245,166,35,.1),rgba(17,30,51,.6));
+}
+.gate p{font-size:15px; color:var(--text); margin:0 0 16px}
+.gate p b{color:var(--bright); font-weight:600}
 
-.stat{border-top:1px solid rgba(44,66,101,.7); padding-top:20px}
-.stat .n{
-  font-family:var(--display); font-size:clamp(46px,5.6vw,78px); line-height:.94;
-  color:var(--bright); letter-spacing:-.02em; display:block;
-}
-.stat .n.amb{color:var(--amber)}
-.stat .t{font-size:15.5px; color:var(--text); margin-top:12px; display:block; max-width:26ch}
-.stat .s{font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--dim); margin-top:10px; display:block}
-
-.tile{
-  background:linear-gradient(170deg,rgba(30,47,73,.62),rgba(17,30,51,.5));
-  border:1px solid rgba(44,66,101,.72); border-radius:16px; padding:28px 26px;
-}
-.tile p{font-size:15.5px; color:var(--text); margin:0}
-.tile .ix{
-  font-family:var(--mono); font-size:10.5px; letter-spacing:.16em;
-  color:var(--amber); margin-bottom:16px; display:block;
-}
-
-/* costo */
-.ledger{border-top:1px solid rgba(44,66,101,.7)}
-.ledger .r{
-  display:grid; grid-template-columns:1.6fr .9fr auto; gap:18px; align-items:baseline;
-  padding:20px 0; border-bottom:1px solid rgba(44,66,101,.42);
-}
-.ledger .r b{font-weight:500; font-size:17px; color:var(--bright)}
-.ledger .r span{font-family:var(--mono); font-size:12.5px; color:var(--dim); letter-spacing:.04em}
-.ledger .r i{font-style:normal; font-family:var(--display); font-size:30px; color:var(--text)}
-.ledger .r.tot{border-bottom:0; padding-top:28px}
-.ledger .r.tot b{font-size:20px}
-.ledger .r.tot i{font-size:clamp(44px,5vw,68px); color:var(--amber); line-height:.9}
-
-/* pipeline orizzontale */
-.flow{position:relative; overflow:hidden; padding:clamp(70px,9vh,110px) 0}
-.flow .track{display:flex; gap:clamp(20px,3vw,42px); width:max-content; padding:0 var(--gut); align-items:stretch}
-.step{
-  width:clamp(250px,26vw,330px); flex:none; padding:30px 28px; border-radius:18px;
-  background:linear-gradient(168deg,rgba(30,47,73,.72),rgba(15,27,46,.72));
-  border:1px solid rgba(44,66,101,.8); display:flex; flex-direction:column;
-}
-.step .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.2em; color:var(--teal); margin-bottom:18px}
-.step h3{font-family:var(--display); font-weight:400; font-size:31px; letter-spacing:-.01em; margin-bottom:14px}
-.step p{font-size:15px; color:var(--text); margin:0}
-
-/* prezzi */
-.plan{
-  border:1px solid rgba(44,66,101,.8); border-radius:18px; padding:28px 24px 26px;
-  display:flex; flex-direction:column; background:rgba(17,30,51,.4);
-}
-.plan.key{
-  border-color:rgba(245,166,35,.55); background:linear-gradient(170deg,rgba(245,166,35,.1),rgba(17,30,51,.55));
-  box-shadow:0 30px 90px -34px rgba(245,166,35,.34);
-}
-.plan .nm{font-family:var(--mono); font-size:10.5px; letter-spacing:.2em; color:var(--amber); margin-bottom:20px}
-.plan .pr{font-family:var(--display); font-size:clamp(40px,4.4vw,56px); line-height:.92; color:var(--bright)}
-.plan .pm{font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--dim); margin:10px 0 20px}
-.plan p{font-size:14.5px; margin:0 0 auto; color:var(--text)}
-.plan .who{
-  margin-top:22px; padding-top:16px; border-top:1px solid rgba(44,66,101,.6);
-  font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--dim);
-}
-
-/* timeline moduli */
-.tl{display:flex; gap:0; margin-top:10px; flex-wrap:wrap}
-.tl div{
-  flex:1 1 160px; padding:20px 18px 0; border-top:2px solid rgba(44,66,101,.8); position:relative;
-}
-.tl div:first-child{border-top-color:var(--amber)}
-.tl div::before{
-  content:""; position:absolute; left:0; top:-5px; width:8px; height:8px; border-radius:50%;
-  background:var(--line);
-}
-.tl div:first-child::before{background:var(--amber); box-shadow:0 0 14px var(--amber)}
-.tl b{display:block; font-weight:500; font-size:15.5px; color:var(--bright)}
-.tl span{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--dim); margin-top:7px; display:block}
-
-/* CTA */
-#audit{background:linear-gradient(to bottom,var(--navy) 0%,#0C1729 100%); text-align:center}
-#audit .wrap{max-width:920px}
-#audit h2.big{max-width:none; margin-inline:auto}
-#audit .lede{margin-inline:auto; margin-bottom:40px}
-.cta{
-  position:relative; display:inline-flex; align-items:center; gap:20px;
-  padding:20px 30px 20px 34px; border-radius:999px; text-decoration:none;
-  background:linear-gradient(96deg,#F7B23F,#E89312); color:#160F02;
-  font-weight:600; font-size:17px; letter-spacing:-.01em; overflow:hidden;
-  box-shadow:0 18px 60px -18px rgba(245,166,35,.75);
-  transition:transform .32s var(--ease),box-shadow .32s var(--ease);
-}
-.cta .price{
-  font-family:var(--display); font-size:25px; padding-left:20px;
-  border-left:1px solid rgba(22,15,2,.32); line-height:1;
-}
-.cta::after{
-  content:""; position:absolute; inset:0; transform:translateX(-110%);
-  background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);
-  transition:transform .8s var(--ease);
-}
-.cta:hover{transform:translateY(-2px); box-shadow:0 26px 76px -18px rgba(245,166,35,.9)}
-.cta:hover::after{transform:translateX(110%)}
-.cta:active{transform:translateY(1px)}
-.alt{
-  display:inline-block; margin-top:26px; font-size:15px; color:var(--text);
-  text-decoration:none; border-bottom:1px solid rgba(180,192,212,.4); padding-bottom:3px;
-}
-.alt:hover{color:var(--bright); border-color:var(--amber)}
-
-/* team + footer */
-.who-card{display:flex; gap:22px; align-items:flex-start}
-.av{
-  width:58px; height:58px; border-radius:14px; flex:none; display:grid; place-items:center;
-  background:rgba(245,166,35,.14); border:1px solid rgba(245,166,35,.4);
-  font-family:var(--mono); font-size:15px; letter-spacing:.06em; color:var(--amber);
-}
-.site-footer{
-  padding:60px var(--gut) 48px; border-top:1px solid rgba(44,66,101,.44);
-  display:flex; flex-wrap:wrap; gap:28px; justify-content:space-between; align-items:flex-end;
-  background:var(--ink);
-}
-.site-footer .fb{display:flex; align-items:center; gap:13px}
-.site-footer small{display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--dim); line-height:1.9}
-.site-footer a{color:var(--text); text-decoration:none; border-bottom:1px solid rgba(180,192,212,.3)}
-.site-footer a:hover{color:var(--amber); border-color:var(--amber)}
-.srcs{font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:#3F4C63; line-height:1.85; max-width:70ch}
-
-@media(prefers-reduced-motion:reduce){
-  *{animation:none !important; transition:none !important}
-  .section .wrap > *{opacity:1 !important; transform:none !important}
-}
 </style>
 </head>
 <body>
@@ -682,9 +520,10 @@ p{margin:0 0 18px}
 <header class="site-header">
   <a class="brand" href="#top"><span class="brand-mark">K</span><span class="brand-word">KOMPLA</span></a>
   <nav class="nav">
+    <a href="#prova">Provalo</a>
     <a href="#come">Come funziona</a>
-    <a href="#precisione">Precisione</a>
     <a href="#prezzi">Prezzi</a>
+    <a href="team.html">Team</a>
     <a class="btn-mini" href="#audit">Prenota un audit</a>
   </nav>
 </header>
@@ -842,31 +681,72 @@ p{margin:0 0 18px}
   </div>
 </section>
 
-<!-- ========================= IL FILTRO CONTINUO ========================= -->
-<section class="radar" id="radarFilm" aria-label="Il filtro continuo di Kompla">
-  <div class="rstage">
-    <canvas id="rcanvas"></canvas>
-    <div class="rveil"></div>
-    <div class="rbeats">
-      <div class="rbeat" data-in="-0.1" data-peak="0.05" data-out="0.33">
-        <h2>Ogni documento che entra passa dal controllo.</h2>
-        <p>Anche quello arrivato venerdì alle 19, quando il tuo legale era altrove e il cliente aspettava una risposta entro lunedì.</p>
+<!-- ========================= IL SISTEMA ========================= -->
+<section class="solar" id="solar" aria-label="Il sistema del rischio di Kompla">
+  <div class="sstage">
+    <canvas id="scanvas"></canvas>
+    <div class="sveil"></div>
+
+    <div class="smeter" id="smeter">
+      <div class="eyebrow" style="margin:0 0 10px" id="sdomain">IL SISTEMA</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim)" id="sorbit">CINQUE DOMINI IN ORBITA</div>
+    </div>
+
+    <div class="scards" id="scards">
+      <div class="scard" data-i="0">
+        <div class="k">RILIEVO · QUESTIONARI DI SICUREZZA</div>
+        <div class="card">
+          <div class="hd"><i class="dot"></i><b>Nove controlli senza evidenza</b><span class="sev">ALTA</span></div>
+          <div class="rows">
+            <div><span>FONTE</span><b>ISO/IEC 27001:2022 · A.5.19</b></div>
+            <div><span>REGOLA</span><b>VND-CHK-12 · evidenza allegata</b></div>
+            <div><span>CONFIDENZA</span><b><em>91%</em></b></div>
+          </div>
+        </div>
+        <p class="note">Dodici-diciotto ore per compilarlo a mano, e il cliente enterprise te lo rimanda indietro comunque.</p>
       </div>
-      <div class="rbeat" data-in="0.35" data-peak="0.48" data-out="0.66">
-        <h2>Quelli puliti non ti rubano un minuto.</h2>
-        <p>Gli altri arrivano sul tavolo già con l’articolo che li giustifica e il testo da mandare alla controparte.</p>
+      <div class="scard" data-i="2">
+        <div class="k">RILIEVO · DPA E TRASFERIMENTI</div>
+        <div class="card">
+          <div class="hd"><i class="dot"></i><b>Notifica oltre il termine di legge</b><span class="sev">ALTA</span></div>
+          <div class="rows">
+            <div><span>FONTE</span><b>GDPR Art. 33(1)–(2)</b></div>
+            <div><span>REGOLA</span><b>DPA-CHK-09 · breach ≤ 48h</b></div>
+            <div><span>CONFIDENZA</span><b><em>96%</em></b></div>
+          </div>
+        </div>
+        <p class="note">Il Garante richiede la notifica entro 72 ore: il termine del fornitore va ridotto, e la riga da mandargli è già pronta.</p>
       </div>
-      <div class="rbeat" data-in="0.69" data-peak="0.84" data-out="2">
-        <h2>Il tuo legale vede solo ciò che merita il suo tempo.</h2>
-        <p>Il resto resta verificato, tracciato e pronto da mostrare a un cliente enterprise che lo chiede.</p>
+      <div class="scard" data-i="4">
+        <div class="k">RILIEVO · AI ACT E NIS2</div>
+        <div class="card">
+          <div class="hd"><i class="dot"></i><b>Sistema AI non classificato</b><span class="sev">MEDIA</span></div>
+          <div class="rows">
+            <div><span>FONTE</span><b>Reg. UE 2024/1689 · Art. 6</b></div>
+            <div><span>REGOLA</span><b>AIA-CHK-01 · livello di rischio</b></div>
+            <div><span>CONFIDENZA</span><b><em>90%</em></b></div>
+          </div>
+        </div>
+        <p class="note">Obblighi con scadenza nel 2026. I fornitori dei soggetti NIS2 riceveranno le stesse domande entro l’anno.</p>
       </div>
     </div>
-    <div class="rmeter" id="rmeter">
-      <span class="n" id="rcov">0</span>
-      <span class="l">DOCUMENTI VERIFICATI · SU 72</span>
+
+    <div class="sbeats">
+      <div class="sbeat" data-in="-0.1" data-peak="0.03" data-out="0.115">
+        <h2>Ogni documento che ricevi entra in un’orbita.</h2>
+        <p>Non in una cartella dove nessuno lo riaprirà: in un dominio che resta sotto osservazione finché esiste.</p>
+      </div>
+      <div class="sbeat" data-in="0.125" data-peak="0.165" data-out="0.215">
+        <h2>Cinque domini, un solo centro.</h2>
+        <p>Contratti, fornitori, questionari, privacy, AI Act. Il rischio non vive in un reparto solo — e nemmeno il controllo.</p>
+      </div>
+      <div class="sbeat" data-in="0.795" data-peak="0.88" data-out="2">
+        <h2>Tutto torna a un unico punto.</h2>
+        <p>Una metrica viva della salute normativa, una coda prioritizzata, e il pacchetto di prove pronto in un click.</p>
+      </div>
     </div>
-    <div class="rload" id="rload"><i></i></div>
-    <div class="rseam" id="rseam"></div>
+
+    <div class="sseam" id="sseam"></div>
   </div>
 </section>
 
@@ -914,6 +794,36 @@ p{margin:0 0 18px}
     <div class="g2">
       <div><h3>Il vantaggio sono le checklist, non l’AI</h3><p>Costruite con uno studio legale e versionate con fonte e storia: delimitano dove il modello può ragionare. Un concorrente copia un prompt in un giorno; non copia due anni di regole affinate su documenti reali.</p></div>
       <div><h3>La sovranità del dato è un argomento di vendita</h3><p>Inferenza su infrastruttura europea, isolamento per tenant a livello di database, nessun addestramento sui dati dei clienti. Ospitare su una region UE di un provider americano non risolve la questione giurisdizionale.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= LA PROVA ========================= -->
+<section class="section" id="prova">
+  <div class="wrap">
+    <p class="eyebrow">PROVALO ORA · SUL TUO DOCUMENTO</p>
+    <h2 class="big">Incolla una clausola vera. Guarda cosa <em>trova</em>.</h2>
+    <p class="lede">Dodici regole della checklist, eseguite qui dentro. Il testo che incolli non esce dal tuo browser: nessun caricamento, nessun server, nessuna copia da nessuna parte.</p>
+    <div class="dwrap">
+      <div class="dpane">
+        <span class="lab">IL TUO DOCUMENTO</span>
+        <textarea id="dtext" spellcheck="false" data-hint="Incolla qui il testo di un DPA, di un NDA o di un contratto fornitore — anche solo un paio di clausole."></textarea>
+        <div class="drow">
+          <button class="btn" id="drun">Analizza</button>
+          <button class="btn ghost" id="dsample">Usa un DPA di esempio</button>
+          <button class="btn ghost" id="dpick">Apri un file .txt</button>
+          <input type="file" id="dfile" accept=".txt,.md,text/plain" hidden>
+        </div>
+        <p class="dnote">
+          <b>ESECUZIONE LOCALE</b> · IL TESTO NON LASCIA QUESTA PAGINA<br>
+          ANTEPRIMA SU 12 REGOLE · LA CHECKLIST COMPLETA È MOLTO PIÙ AMPIA<br>
+          PDF E DOCX SI ANALIZZANO NELL’AUDIT
+        </p>
+      </div>
+      <div class="dpane" id="dout">
+        <span class="lab">ESITO</span>
+        <p class="dempty">L’esito compare qui. Ogni segnalazione punta al testo esatto del tuo documento e porta l’articolo che la giustifica — mai un rischio inventato.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -978,27 +888,7 @@ p{margin:0 0 18px}
       Prenota un audit <span class="price">490–990 €</span>
     </a>
     <p><a class="alt" href="mailto:ciao@kompla.io?subject=Kompla%20—%20due%20domande">Oppure scrivi due righe al fondatore, senza impegno</a></p>
-  </div>
-</section>
-
-<!-- ========================= CHI ========================= -->
-<section class="section" id="chi">
-  <div class="wrap">
-    <p class="eyebrow">CHI C’È DIETRO</p>
-    <h2 class="big">Milano. Un prodotto che esiste già, e nessuna promessa che non possiamo tenere.</h2>
-    <div class="g2">
-      <div class="who-card">
-        <div class="av">VP</div>
-        <div>
-          <h3>Vincenzo Pio Patermo</h3>
-          <p class="muted">Founder &amp; CEO — strategia, prodotto, vendite. Bocconi, MSc INTENT, semestre a WHU con lode in Strategic Management. Prototipo funzionante, white paper e ricerca di mercato con fonti primarie: costruiti in autonomia.</p>
-        </div>
-      </div>
-      <div>
-        <h3>Le caselle che stiamo chiudendo</h3>
-        <p class="muted">Un co-founder tecnico full-stack con esperienza di modelli linguistici in produzione, e uno studio legale partner che costruisce e mantiene le checklist di review. Le nominiamo per prime perché è parte del metodo: preferiamo dire dove non siamo ancora forti.</p>
-      </div>
-    </div>
+    <p class="muted" style="margin-top:30px;font-size:14.5px">Vuoi sapere chi c’è dietro, o stai valutando di investire? <a href="team.html" style="color:var(--amber)">Il team, i ruoli aperti e il pre-seed</a> stanno su una pagina a parte.</p>
   </div>
 </section>
 
@@ -1012,6 +902,7 @@ p{margin:0 0 18px}
   </div>
   <div>
     <small><a href="mailto:ciao@kompla.io">ciao@kompla.io</a></small>
+    <small style="margin-top:10px"><a href="team.html">Team e ruoli aperti</a> · <a href="team.html#investitori">Investitori</a></small>
     <small style="margin-top:10px">MOVE FAST, STAY COVERED</small>
   </div>
   <div class="srcs">
@@ -1247,173 +1138,338 @@ function tick(){
   if (!primed || Math.abs(pNow - pTarget) > 0.00008 || !STATIC){
     renderFilm(pNow); primed = true;
   }
-  rTick();
+  sTick();
   requestAnimationFrame(tick);
 }
 
 /* ------------------------------------------------------------------
-   2b. IL FILTRO CONTINUO — motore di scrub su canvas
-   I frame sono pre-renderizzati (tools/gen-radar.js): scrubbare
-   <video currentTime> scatta per la latenza di seek, disegnare
-   ImageBitmap decodificati fuori thread è un blit puro.
+   2b. IL SISTEMA — reso dal vivo, non frame pre-compressi
+   Geometria vettoriale ridisegnata a ogni frame: nitida al DPR dello
+   schermo, adattabile a ogni viewport, e non pesa un byte.
    ------------------------------------------------------------------ */
-var RN       = 144;
-var rWrap    = $('#radarFilm'),
-    rCan     = $('#rcanvas'),
-    rLoadEl  = $('#rload'),
-    rCovEl   = $('#rcov'),
-    rMeter   = $('#rmeter');
-var rCtx     = rCan ? rCan.getContext('2d', { alpha:false }) : null;
-var rSeam    = $('#rseam');
-var rImgs    = new Array(RN), rBmp = new Map(), rDecoding = new Set();
-var rCov     = null, rDir = null, rDone = 0, rShown = -1;
-var rNow     = 0, rTarget = 0, rBmpC = -999, rBooted = false;
-var rMQ      = matchMedia('(max-width: 760px)');
-var rBeats   = $$('.rbeat').map(function(el){
+var sCan = $('#scanvas');
+var sCtx = sCan ? sCan.getContext('2d') : null;
+var sWrap = $('#solar'), sSeam = $('#sseam'),
+    sMeter = $('#smeter'), sDomain = $('#sdomain'), sOrbit = $('#sorbit');
+var sW = 0, sH = 0, sDPR = 1;
+var FLAT = 0.42;                       /* schiacciamento delle orbite: vista tre quarti */
+
+var PLANETS = [
+  { R:1.00, rp:0.062, spin:0.62, a0:-0.55, born:0.012, ring:false,
+    c0:'#BFD4EE', c1:'#5E80B4', c2:'#1A2B47', nome:'QUESTIONARI DI SICUREZZA' },
+  { R:0.80, rp:0.046, spin:0.78, a0:2.10,  born:0.026, ring:false,
+    c0:'#EBD6A8', c1:'#A8834A', c2:'#3A2C15', nome:'CONTRATTI FORNITORE' },
+  { R:0.62, rp:0.058, spin:0.95, a0:0.70,  born:0.040, ring:true,
+    c0:'#FBD79A', c1:'#DE9A33', c2:'#5B3608', nome:'DPA E TRASFERIMENTI' },
+  { R:0.46, rp:0.038, spin:1.22, a0:3.60,  born:0.054, ring:false,
+    c0:'#CFF0E9', c1:'#48A79B', c2:'#12403B', nome:'NDA E CONTRATTI CLIENTE' },
+  { R:0.32, rp:0.042, spin:1.55, a0:1.40,  born:0.068, ring:false,
+    c0:'#EFC2D2', c1:'#B0718C', c2:'#3E2030', nome:'AI ACT E NIS2' }
+];
+var DIVES = [0, 2, 4];                 /* dal più esterno al più interno: non si torna mai indietro */
+
+/* i segmenti della camera. 'dive' insegue il pianeta, che nel frattempo orbita. */
+var SEG = [
+  { a:0.000, b:0.090, sc:0.40 },
+  { a:0.090, b:0.200, sc:0.46 },
+  { a:0.200, b:0.330, dive:0 },
+  { a:0.330, b:0.400, sc:0.52 },
+  { a:0.400, b:0.530, dive:2 },
+  { a:0.530, b:0.600, sc:0.60 },
+  { a:0.600, b:0.730, dive:4 },
+  { a:0.730, b:0.800, sc:0.70 },
+  { a:0.800, b:1.000, sun:true, sc:2.30 }
+];
+var CARDS = $$('.scard').map(function(el){
+  var i = +el.dataset.i, k = DIVES.indexOf(i), g = SEG[2 + k*2];
+  return { el:el, i:i, in:g.a + 0.012, peak:g.a + 0.055, out:g.b + 0.004, shown:-1 };
+});
+var sBeats = $$('.sbeat').map(function(el){
   return { el:el, in:+el.dataset.in, peak:+el.dataset.peak, out:+el.dataset.out, shown:-1 };
 });
 
-function rPath(i, dir){ return 'radar/' + dir + '/r_' + String(i).padStart(4,'0') + '.jpg'; }
+var smooth = function(u){ return u*u*(3 - 2*u); };
+var lerp   = function(a,b,u){ return a + (b-a)*u; };
 
-function rSize(){
-  if (!rCan) return;
-  /* DPR a 1.0: la sorgente combacia col canvas, ed è da lì che viene la nitidezza */
-  var w = Math.max(1, innerWidth), h = Math.max(1, innerHeight);
-  if (rCan.width !== w || rCan.height !== h){ rCan.width = w; rCan.height = h; rShown = -1; }
+var STARS = (function(){
+  var r = 0x9E3779B1, out = [];
+  function rnd(){ r ^= r<<13; r ^= r>>>17; r ^= r<<5; return ((r>>>0) % 100000)/100000; }
+  for (var i=0;i<240;i++){
+    var ang = rnd()*Math.PI*2, rad = 0.25 + Math.pow(rnd(),0.6)*2.3;
+    out.push({ x:Math.cos(ang)*rad, y:Math.sin(ang)*rad*0.8,
+               d:0.18 + rnd()*0.55, s:0.5 + rnd()*1.25, a:0.18 + rnd()*0.5, tw:rnd()*6.28 });
+  }
+  return out;
+})();
+
+var SHEETS = (function(){
+  var r = 0x1F123BB5, out = [];
+  function rnd(){ r ^= r<<13; r ^= r>>>17; r ^= r<<5; return ((r>>>0) % 100000)/100000; }
+  for (var i=0;i<34;i++){
+    var pl = i % PLANETS.length, ang = rnd()*Math.PI*2;
+    out.push({ pl:pl, x0:Math.cos(ang)*2.6, y0:Math.sin(ang)*2.0,
+               t0:0.004 + (i/34)*0.055, rot:(rnd()-0.5)*1.3, sz:0.6 + rnd()*0.7 });
+  }
+  return out;
+})();
+
+function sAngle(pl, p){ return pl.a0 + p * pl.spin * Math.PI * 2; }
+function sPos(pl, p){
+  var a = sAngle(pl, p);
+  return [Math.cos(a) * pl.R, Math.sin(a) * pl.R * FLAT];
+}
+function sDiveScale(pl){ return 0.23 / pl.rp; }
+
+function sStateOf(k, p){
+  if (k < 0) return { cx:0, cy:0, sc:0.30 };
+  var g = SEG[k];
+  if (g.dive !== undefined){
+    var q = sPos(PLANETS[g.dive], p);
+    return { cx:q[0], cy:q[1], sc:sDiveScale(PLANETS[g.dive]) };
+  }
+  return { cx:0, cy:0, sc:g.sc };
 }
 
-function rLoad(dir){
-  if (rDir === dir) return;
-  rDir = dir; rDone = 0; rShown = -1; rBmpC = -999;
-  rBmp.forEach(function(b){ b.close(); }); rBmp.clear(); rDecoding.clear();
-  rImgs = new Array(RN);
-  if (rLoadEl) rLoadEl.classList.remove('done');
-  /* prima una breve corsa iniziale, poi il resto: il primo disegno non aspetta il film intero */
-  var order = [], i;
-  for (i = 0; i < 14; i++) order.push(i);
-  for (i = 14; i < RN; i++) order.push(i);
-  var q = order.slice(), inFlight = 0;
-  function done(){
-    rDone++;
-    if (rLoadEl){
-      rLoadEl.firstElementChild.style.width = (rDone / RN * 100).toFixed(1) + '%';
-      if (rDone >= RN) rLoadEl.classList.add('done');
+function sCamera(p){
+  var k = 0;
+  while (k < SEG.length - 1 && p >= SEG[k].b) k++;
+  var g = SEG[k], u = smooth(ramp(p, g.a, g.b));
+  var A = sStateOf(k-1, p), B = sStateOf(k, p);
+  return {
+    cx: lerp(A.cx, B.cx, u),
+    cy: lerp(A.cy, B.cy, u),
+    /* la scala si interpola in modo esponenziale: un ingrandimento lineare
+       si legge come uno strappo all'inizio e una frenata alla fine */
+    sc: A.sc * Math.pow(B.sc / A.sc, u),
+    seg: k, u: u
+  };
+}
+
+function sSize(){
+  if (!sCan) return;
+  sDPR = Math.min(2, window.devicePixelRatio || 1);
+  sW = Math.max(1, innerWidth); sH = Math.max(1, innerHeight);
+  if (sCan.width !== Math.round(sW*sDPR) || sCan.height !== Math.round(sH*sDPR)){
+    sCan.width = Math.round(sW * sDPR); sCan.height = Math.round(sH * sDPR);
+  }
+  sCtx.setTransform(sDPR, 0, 0, sDPR, 0, 0);
+}
+
+function sDrawSun(cam, U, p){
+  var x = sW/2 - cam.cx*U, y = sH/2 - cam.cy*U;
+  var r = 0.052 * U;
+  var g = sCtx.createRadialGradient(x, y, r*0.2, x, y, r*7);
+  g.addColorStop(0,'rgba(245,166,35,0.34)');
+  g.addColorStop(0.30,'rgba(245,166,35,0.10)');
+  g.addColorStop(1,'rgba(245,166,35,0)');
+  sCtx.fillStyle = g; sCtx.beginPath(); sCtx.arc(x, y, r*7, 0, 6.2832); sCtx.fill();
+
+  g = sCtx.createRadialGradient(x - r*0.2, y - r*0.2, r*0.1, x, y, r);
+  g.addColorStop(0,'#FFE7B4'); g.addColorStop(0.55,'#F5A623'); g.addColorStop(1,'#C97A0B');
+  sCtx.fillStyle = g; sCtx.beginPath(); sCtx.arc(x, y, r, 0, 6.2832); sCtx.fill();
+
+  /* il marchio: leggibile solo quando siamo abbastanza vicini */
+  var k = r * 0.52;
+  if (k > 7){
+    sCtx.save();
+    sCtx.fillStyle = 'rgba(18,32,58,0.92)';
+    var rr = k*0.26;
+    sCtx.beginPath();
+    sCtx.moveTo(x-k+rr, y-k);
+    sCtx.arcTo(x+k, y-k, x+k, y+k, rr); sCtx.arcTo(x+k, y+k, x-k, y+k, rr);
+    sCtx.arcTo(x-k, y+k, x-k, y-k, rr); sCtx.arcTo(x-k, y-k, x+k, y-k, rr);
+    sCtx.closePath(); sCtx.fill();
+    sCtx.fillStyle = '#F7C05A';
+    sCtx.font = '700 ' + (k*1.34).toFixed(1) + 'px Instrument Sans, Helvetica, Arial, sans-serif';
+    sCtx.textAlign = 'center'; sCtx.textBaseline = 'middle';
+    sCtx.fillText('K', x, y + k*0.06);
+    sCtx.restore();
+  }
+}
+
+function sDrawPlanet(pl, p, cam, U, alpha, labelAlpha){
+  var q = sPos(pl, p);
+  var x = sW/2 + (q[0] - cam.cx)*U, y = sH/2 + (q[1] - cam.cy)*U;
+  var r = pl.rp * U;
+  if (r < 0.35) return;
+  if (x < -r*4 || x > sW + r*4 || y < -r*4 || y > sH + r*4) return;
+
+  sCtx.save();
+  sCtx.globalAlpha = alpha;
+
+  /* atmosfera */
+  var gg = sCtx.createRadialGradient(x, y, r*0.92, x, y, r*1.5);
+  gg.addColorStop(0, 'rgba(255,255,255,0.10)');
+  gg.addColorStop(1, 'rgba(255,255,255,0)');
+  sCtx.fillStyle = gg; sCtx.beginPath(); sCtx.arc(x, y, r*1.5, 0, 6.2832); sCtx.fill();
+
+  if (pl.ring && r > 4){
+    sCtx.save(); sCtx.translate(x, y); sCtx.rotate(-0.42);
+    sCtx.strokeStyle = 'rgba(251,215,154,0.34)'; sCtx.lineWidth = Math.max(1, r*0.085);
+    sCtx.beginPath(); sCtx.ellipse(0, 0, r*1.85, r*0.55, 0, 0, 6.2832); sCtx.stroke();
+    sCtx.strokeStyle = 'rgba(251,215,154,0.16)'; sCtx.lineWidth = Math.max(1, r*0.05);
+    sCtx.beginPath(); sCtx.ellipse(0, 0, r*2.22, r*0.68, 0, 0, 6.2832); sCtx.stroke();
+    sCtx.restore();
+  }
+
+  /* corpo, illuminato dal centro del sistema */
+  var toSun = Math.atan2(-q[1], -q[0]);
+  var lx = x + Math.cos(toSun)*r*0.42, ly = y + Math.sin(toSun)*r*0.42;
+  var g = sCtx.createRadialGradient(lx, ly, r*0.05, x, y, r*1.04);
+  g.addColorStop(0, pl.c0); g.addColorStop(0.52, pl.c1); g.addColorStop(1, pl.c2);
+  sCtx.fillStyle = g; sCtx.beginPath(); sCtx.arc(x, y, r, 0, 6.2832); sCtx.fill();
+
+  if (r > 5){
+    sCtx.save();
+    sCtx.beginPath(); sCtx.arc(x, y, r, 0, 6.2832); sCtx.clip();
+    sCtx.translate(x, y); sCtx.rotate(-0.3);
+    for (var b = 0; b < 5; b++){
+      var oy = (-0.62 + b*0.31) * r;
+      sCtx.fillStyle = (b % 2 ? 'rgba(255,255,255,0.055)' : 'rgba(0,0,0,0.085)');
+      sCtx.beginPath(); sCtx.ellipse(0, oy, r*1.25, r*0.115, 0, 0, 6.2832); sCtx.fill();
     }
-    inFlight--; pump();
+    sCtx.restore();
+    /* terminatore */
+    sCtx.save();
+    sCtx.beginPath(); sCtx.arc(x, y, r, 0, 6.2832); sCtx.clip();
+    var dx = -Math.cos(toSun), dy = -Math.sin(toSun);
+    var tg = sCtx.createLinearGradient(x, y, x + dx*r*1.9, y + dy*r*1.9);
+    tg.addColorStop(0, 'rgba(4,8,14,0)'); tg.addColorStop(0.42, 'rgba(4,8,14,0.42)');
+    tg.addColorStop(1, 'rgba(4,8,14,0.9)');
+    sCtx.fillStyle = tg; sCtx.fillRect(x-r*1.1, y-r*1.1, r*2.2, r*2.2);
+    sCtx.restore();
   }
-  function pump(){
-    while (inFlight < 10 && q.length){
-      (function(k){
-        inFlight++;
-        var im = new Image();
-        im.onload  = function(){ rImgs[k] = im; done(); };
-        im.onerror = done;
-        im.src = rPath(k, dir);
-      })(q.shift());
+
+  /* i rilievi sulla superficie: si vedono solo quando siamo davvero addosso */
+  if (r > 90){
+    var vis = ramp(r, 90, 200);
+    var pts = [[-0.34,-0.22],[0.18,-0.40],[0.42,0.16],[-0.12,0.38],[-0.52,0.10]];
+    for (var i = 0; i < pts.length; i++){
+      var px = x + pts[i][0]*r, py = y + pts[i][1]*r*0.92;
+      var pulse = 0.55 + 0.45*Math.sin(p*90 + i*1.7);
+      sCtx.save();
+      sCtx.globalAlpha = alpha * vis * (0.5 + pulse*0.5);
+      sCtx.shadowColor = 'rgba(245,166,35,0.9)'; sCtx.shadowBlur = 16;
+      sCtx.fillStyle = 'rgba(255,214,140,0.95)';
+      sCtx.beginPath(); sCtx.arc(px, py, Math.max(1.6, r*0.012), 0, 6.2832); sCtx.fill();
+      sCtx.restore();
     }
   }
-  pump();
-}
 
-function rNearest(i){
-  if (rImgs[i]) return rImgs[i];
-  for (var d = 1; d < RN; d++){
-    if (rImgs[i-d]) return rImgs[i-d];
-    if (rImgs[i+d]) return rImgs[i+d];
+  /* etichetta del dominio */
+  if (labelAlpha > 0.01 && r > 2 && r < 90){
+    sCtx.globalAlpha = alpha * labelAlpha;
+    sCtx.fillStyle = 'rgba(180,192,212,0.88)';
+    sCtx.font = '500 10px IBM Plex Mono, ui-monospace, monospace';
+    sCtx.textBaseline = 'middle';
+    sCtx.shadowColor = 'rgba(0,0,0,0.92)'; sCtx.shadowBlur = 10;
+    /* dal lato opposto al centro: cosi' non cade mai sul sole */
+    var outward = (q[0] >= 0) ? 1 : -1;
+    sCtx.textAlign = outward > 0 ? 'left' : 'right';
+    sCtx.fillText(pl.nome, x + outward*(r + 11), y);
+    sCtx.shadowBlur = 0;
   }
-  return null;
+  sCtx.restore();
 }
 
-/* copri finché il ritaglio è modesto, altrimenti letterbox: su un telefono
-   un fotogramma 16:9 in cover butterebbe via i tre quarti della composizione */
-function rFit(src, sw, sh){
-  var cw = rCan.width, ch = rCan.height;
-  var cover = Math.max(cw/sw, ch/sh);
-  var crop  = 1 - Math.min(cw/(sw*cover), ch/(sh*cover));
-  var sc    = crop > 0.22 ? Math.min(cw/sw, ch/sh) : cover;
-  var w = sw*sc, h = sh*sc;
-  rCtx.fillStyle = '#05090F'; rCtx.fillRect(0, 0, cw, ch);
-  rCtx.drawImage(src, (cw-w)/2, (ch-h)/2, w, h);
-}
+function sRender(p){
+  if (!sCtx) return;
+  var cam = sCamera(p), U = cam.sc * Math.min(sW, sH), i;
 
-function rDraw(i){
-  if (!rCtx) return;
-  var bm = rBmp.get(i);
-  if (bm){ rFit(bm, bm.width, bm.height); rShown = i; return; }
-  var im = rNearest(i);
-  if (im){ rFit(im, im.naturalWidth, im.naturalHeight); rShown = i; }
-}
+  var bg = sCtx.createRadialGradient(sW/2, sH*0.46, 0, sW/2, sH*0.5, Math.max(sW,sH)*0.8);
+  bg.addColorStop(0, '#101E33'); bg.addColorStop(0.5, '#0A1120'); bg.addColorStop(1, '#05090F');
+  sCtx.fillStyle = bg; sCtx.fillRect(0, 0, sW, sH);
 
-function rEnsure(c){
-  if (Math.abs(c - rBmpC) < 3) return;
-  rBmpC = c;
-  var lo = Math.max(0, c - 14), hi = Math.min(RN - 1, c + 30), i;
-  for (i = lo; i <= hi; i++){
-    if (rBmp.has(i) || rDecoding.has(i) || !rImgs[i]) continue;
-    rDecoding.add(i);
-    (function(k){
-      createImageBitmap(rImgs[k]).then(function(b){
-        rDecoding.delete(k);
-        if (Math.abs(k - rBmpC) > 40){ b.close(); return; }
-        rBmp.set(k, b);
-        if (k === rShown) rDraw(k);
-      }).catch(function(){ rDecoding.delete(k); });
-    })(i);
+  /* campo stellare a scala fissa: si muove in parallasse ma non esplode nei tuffi */
+  var Uw = 0.42 * Math.min(sW, sH);
+  for (i = 0; i < STARS.length; i++){
+    var st = STARS[i];
+    var sx = sW/2 + (st.x - cam.cx*st.d)*Uw, sy = sH/2 + (st.y - cam.cy*st.d)*Uw;
+    if (sx < -4 || sx > sW+4 || sy < -4 || sy > sH+4) continue;
+    sCtx.globalAlpha = st.a * (0.6 + 0.4*Math.sin(p*40 + st.tw));
+    sCtx.fillStyle = '#C8D6EA';
+    sCtx.fillRect(sx, sy, st.s, st.s);
   }
-  rBmp.forEach(function(b, k){
-    if (k < c - 40 || k > c + 40){ b.close(); rBmp.delete(k); }
-  });
-}
+  sCtx.globalAlpha = 1;
 
-function rProgress(){
-  var r = rWrap.getBoundingClientRect();
-  if (r.height <= innerHeight) return 0;
-  return clamp(-r.top / (r.height - innerHeight), 0, 1);
-}
-
-function rTick(){
-  if (!rCtx || !rWrap) return;
-  var r = rWrap.getBoundingClientRect();
-  if (r.bottom < -200 || r.top > innerHeight + 200) return;   /* fuori scena: niente lavoro */
-  rTarget = REDUCE ? 1 : rProgress();
-  rNow += (rTarget - rNow) * (STATIC ? 1 : 0.14);
-  var idx = Math.round(rNow * (RN - 1));
-  rEnsure(idx);
-  if (idx !== rShown) rDraw(idx);
-
-  for (var i = 0; i < rBeats.length; i++){
-    var b = rBeats[i], a = beatAlpha(b, rNow);
-    if (a === b.shown) continue;
-    b.shown = a;
-    b.el.style.opacity = a.toFixed(3);
-    b.el.style.transform = 'translateY(' + ((1 - a) * 24).toFixed(1) + 'px)';
+  /* orbite */
+  var ox = sW/2 - cam.cx*U, oy = sH/2 - cam.cy*U;
+  for (i = 0; i < PLANETS.length; i++){
+    var pl = PLANETS[i], al = ramp(p, pl.born, pl.born + 0.05);
+    if (al <= 0.01) continue;
+    sCtx.strokeStyle = 'rgba(245,166,35,' + (0.15*al).toFixed(3) + ')';
+    sCtx.lineWidth = 1;
+    sCtx.beginPath(); sCtx.ellipse(ox, oy, pl.R*U, pl.R*FLAT*U, 0, 0, 6.2832); sCtx.stroke();
   }
-  if (rSeam) rSeam.style.opacity = ramp(rNow, 0.955, 1).toFixed(3);
-  if (rCov && rCovEl){
-    var v = rCov[clamp(idx, 0, rCov.length - 1)];
-    if (rCovEl.textContent !== String(v)) rCovEl.textContent = v;
-    if (rMeter) rMeter.classList.add('on');
+
+  sDrawSun(cam, U, p);
+
+  /* i documenti che arrivano e prendono posto */
+  if (p < 0.115){
+    for (i = 0; i < SHEETS.length; i++){
+      var sh = SHEETS[i], u = ramp(p, sh.t0, sh.t0 + 0.048);
+      if (u <= 0 || u >= 1) continue;
+      var tp = sPos(PLANETS[sh.pl], p), e = smooth(u);
+      var wx = lerp(sh.x0, tp[0], e), wy = lerp(sh.y0, tp[1], e);
+      var x = sW/2 + (wx - cam.cx)*U, y = sH/2 + (wy - cam.cy)*U;
+      var w = 7*sh.sz, h = 10*sh.sz;
+      sCtx.save();
+      sCtx.globalAlpha = Math.min(1, u*3.5) * (1 - ramp(u, 0.72, 1));
+      sCtx.translate(x, y); sCtx.rotate(sh.rot + e*1.6);
+      sCtx.fillStyle = '#E6E0D2'; sCtx.fillRect(-w/2, -h/2, w, h);
+      sCtx.fillStyle = 'rgba(56,50,36,0.34)';
+      for (var ly2 = -h/2+2; ly2 < h/2-1; ly2 += 3) sCtx.fillRect(-w/2+1.4, ly2, w-2.8, 1);
+      sCtx.restore();
+    }
   }
+
+  /* durante un tuffo le etichette si tolgono di mezzo */
+  var diving = (SEG[cam.seg] && SEG[cam.seg].dive !== undefined) ? 1 : 0;
+  var labelA = clamp(1 - ramp(cam.sc, 0.75, 1.6), 0, 1);
+  for (i = 0; i < PLANETS.length; i++){
+    var pp = PLANETS[i];
+    sDrawPlanet(pp, p, cam, U, ramp(p, pp.born, pp.born + 0.035), labelA);
+  }
+
+  /* scheda del rilievo + beat + readout */
+  for (i = 0; i < CARDS.length; i++){
+    var c = CARDS[i], a = beatAlpha(c, p);
+    if (a === c.shown) continue;
+    c.shown = a;
+    c.el.style.opacity = a.toFixed(3);
+    c.el.style.transform = 'translateY(calc(-50% + ' + ((1-a)*18).toFixed(1) + 'px))';
+  }
+  for (i = 0; i < sBeats.length; i++){
+    var bt = sBeats[i], ba = beatAlpha(bt, p);
+    if (ba === bt.shown) continue;
+    bt.shown = ba;
+    bt.el.style.opacity = ba.toFixed(3);
+    bt.el.style.transform = 'translateY(' + ((1-ba)*24).toFixed(1) + 'px)';
+  }
+  if (sDomain){
+    var dv = SEG[cam.seg] && SEG[cam.seg].dive;
+    var nome = (dv !== undefined && dv !== null) ? PLANETS[dv].nome : 'IL SISTEMA';
+    if (sDomain.textContent !== nome){
+      sDomain.textContent = nome;
+      sOrbit.textContent = (dv !== undefined && dv !== null)
+        ? 'ORBITA ' + (dv + 1) + ' DI ' + PLANETS.length
+        : 'CINQUE DOMINI IN ORBITA';
+    }
+    sMeter.classList.toggle('on', p > 0.1);
+  }
+  if (sSeam) sSeam.style.opacity = ramp(p, 0.955, 1).toFixed(3);
 }
 
-function rBoot(){
-  if (!rCtx || rBooted) return Promise.resolve();
-  rBooted = true;
-  rSize();
-  rLoad(rMQ.matches ? 'm' : 'd');
-  rMQ.addEventListener('change', function(){ rLoad(rMQ.matches ? 'm' : 'd'); });
-  /* la copertura mostrata è quella vera, frame per frame, non una stima */
-  fetch('radar/cov.json').then(function(r){ return r.json(); })
-    .then(function(j){ if (Array.isArray(j) && j.length) rCov = j; })
-    .catch(function(){});
-  return new Promise(function(res){
-    var t0 = Date.now();
-    (function wait(){
-      var idx = Math.round(rProgress() * (RN - 1));
-      if (rImgs[idx] || rDone >= 14 || Date.now() - t0 > 8000) return res();
-      setTimeout(wait, 60);
-    })();
-  });
+var sNow = 0, sTargetP = 0;
+function sTick(){
+  if (!sCtx || !sWrap) return;
+  var r = sWrap.getBoundingClientRect();
+  if (r.bottom < -200 || r.top > innerHeight + 200) return;
+  if (sW !== innerWidth || sH !== innerHeight) sSize();
+  var span = r.height - innerHeight;
+  sTargetP = REDUCE ? 0.16 : clamp(span > 0 ? -r.top / span : 0, 0, 1);
+  sNow += (sTargetP - sNow) * (STATIC ? 1 : 0.14);
+  sRender(sNow);
 }
 
 /* ------------------------------------------------------------------
@@ -1478,7 +1534,7 @@ if (window.gsap && window.ScrollTrigger){
    ------------------------------------------------------------------ */
 function settle(){
   drawDocs();
-  rSize(); if (rShown >= 0) rDraw(rShown);
+  sSize(); sNow = sTargetP;
   renderFilm(pNow = pTarget = filmTarget());
   if (window.ScrollTrigger) ScrollTrigger.refresh();
 }
@@ -1486,8 +1542,6 @@ function settle(){
 addEventListener('resize', function(){ settle(); }, { passive:true });
 
 Promise.resolve(document.fonts ? document.fonts.ready : null).then(function(){
-  return rBoot();
-}).then(function(){
   requestAnimationFrame(function(){
     if (JUMP !== null){
       scrollTo(0, +JUMP || 0);
@@ -1501,23 +1555,10 @@ Promise.resolve(document.fonts ? document.fonts.ready : null).then(function(){
       $$('.section').forEach(function(s){ s.classList.add('in'); });
       pNow = pTarget = filmTarget();
       renderFilm(pNow);
-      rNow = rTarget = (REDUCE ? 1 : rProgress());
-      /* con ?jump il cancello si apre solo a frame di destinazione DISEGNATO:
-         altrimenti il banco di prova fotografa un frame di ripiego */
-      (function waitFrame(t0){
-        t0 = t0 || Date.now();
-        var idx = Math.round(rNow * (RN - 1));
-        if (rCtx && !rImgs[idx] && Date.now() - t0 < 15000){
-          return setTimeout(function(){ waitFrame(t0); }, 60);
-        }
-        rEnsure(idx); rDraw(idx);
-        requestAnimationFrame(function(){
-          renderFilm(pNow = pTarget = filmTarget());
-          rNow = rTarget = (REDUCE ? 1 : rProgress());
-          rDraw(Math.round(rNow * (RN - 1)));
-          requestAnimationFrame(function(){ window.__ready = true; });
-        });
-      })();
+      requestAnimationFrame(function(){
+        renderFilm(pNow = pTarget = filmTarget());
+        requestAnimationFrame(function(){ window.__ready = true; });
+      });
     } else {
       settle();
       window.__ready = true;
@@ -1542,6 +1583,257 @@ tick();
   })(last);
 })();
 
+})();
+</script>
+
+<script>
+/* ------------------------------------------------------------------
+   LA PROVA — motore di regole deterministico, eseguito nel browser.
+   Nessuna chiamata di rete: il testo dell'utente non lascia la pagina.
+   E' un'ANTEPRIMA di 12 regole, non la checklist completa di Kompla,
+   e il copy in pagina lo dice.
+   ------------------------------------------------------------------ */
+(function(){
+"use strict";
+var $ = function(q){ return document.querySelector(q); };
+var ta = $('#dtext'), out = $('#dout'), run = $('#drun');
+if (!ta || !out) return;
+ta.placeholder = ta.dataset.hint || '';
+
+function esc(x){
+  return String(x).replace(/[&<>"']/g, function(c){
+    return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+  });
+}
+var has = function(t, re){ return re.test(t); };
+/* documenti che parlano di trattamento: le regole per assenza valgono solo li' */
+var isDPA = function(t){
+  return /(processor|controller|responsabile del trattamento|titolare del trattamento|data processing|trattamento dei dati|personal data|dati personali)/i.test(t);
+};
+function sentences(t){ return t.split(/(?<=[.;])\s+|\n+/).filter(function(x){ return x.trim().length > 12; }); }
+
+var RULES = [
+  { id:'DPA-CHK-09', sev:'ALTA', conf:96, fonte:'GDPR Art. 33(1)–(2)',
+    tit:'Notifica della violazione oltre il termine di legge',
+    fix:'"…shall notify the Controller within forty-eight (48) hours after becoming aware of it."',
+    test:function(t){
+      var ss = sentences(t);
+      for (var i=0;i<ss.length;i++){
+        if (!/\b(breach|violazion)/i.test(ss[i])) continue;
+        var h = /\(?\s*(\d{1,4})\s*\)?\s*(hours?|ore)\b/i.exec(ss[i]);
+        var d = /\(?\s*(\d{1,3})\s*\)?\s*(days?|giorni)\b/i.exec(ss[i]);
+        var n = h ? +h[1] : (d ? +d[1]*24 : null);
+        if (n !== null && n > 72) return { frase:ss[i], hit:(h||d)[0].trim() };
+      }
+      return null;
+    } },
+  { id:'DPA-CHK-21', sev:'ALTA', conf:89, fonte:'GDPR Art. 44–46',
+    tit:'Trasferimento fuori dallo SEE senza garanzie dichiarate',
+    fix:'"…subject to the Standard Contractual Clauses adopted by the European Commission."',
+    test:function(t){
+      if (/(standard contractual clauses|clausole contrattuali standard|\bSCC\b|adequacy decision|decisione di adeguatezza|art\.?\s*46)/i.test(t)) return null;
+      var ss = sentences(t);
+      for (var i=0;i<ss.length;i++){
+        var m = /(outside the EEA|outside the European Economic Area|third countr\w+|paese terz\w+|fuori dallo SEE|extra[-\s]?UE)/i.exec(ss[i]);
+        if (m) return { frase:ss[i], hit:m[0] };
+      }
+      return null;
+    } },
+  { id:'DPA-CHK-04', sev:'ALTA', conf:94, fonte:'GDPR Art. 28(2)',
+    tit:'Subresponsabile senza autorizzazione preventiva',
+    fix:'"…only with the Controller’s prior specific written authorisation."',
+    test:function(t){
+      if (/(prior (specific )?(written )?(authoris|authoriz|consent)|autorizzazione (scritta )?preventiva|previa autorizzazione)/i.test(t)) return null;
+      var ss = sentences(t);
+      for (var i=0;i<ss.length;i++){
+        var m = /(sub[-\s]?processors?|sub[-\s]?responsabil\w+|subfornitor\w+)/i.exec(ss[i]);
+        if (m) return { frase:ss[i], hit:m[0] };
+      }
+      return null;
+    } },
+  { id:'JUR-CHK-01', sev:'ALTA', conf:88, fonte:'Reg. UE 2016/679 · Considerando 101',
+    tit:'Legge applicabile fuori dall’Unione',
+    fix:'"…governed by the laws of Italy, with exclusive jurisdiction of the courts of Milan."',
+    test:function(t){
+      var ss = sentences(t);
+      for (var i=0;i<ss.length;i++){
+        if (!/(governed by|subject to the laws?|legge applicabile|regolat\w+ dalla legge|foro competente)/i.test(ss[i])) continue;
+        var m = /(Delaware|New York|California|Texas|England|Wales|Switzerland|Svizzera|United States|U\.S\.A?\.|Singapore|Hong Kong)/i.exec(ss[i]);
+        if (m) return { frase:ss[i], hit:m[0] };
+      }
+      return null;
+    } },
+  { id:'NDA-CHK-03', sev:'MEDIA', conf:84, fonte:'Prassi contrattuale · durata determinata',
+    tit:'Obbligo di riservatezza a durata indeterminata',
+    fix:'"…for a period of five (5) years from the date of disclosure."',
+    test:function(t){
+      var ss = sentences(t);
+      for (var i=0;i<ss.length;i++){
+        if (!/(confidential|riservat|segretezza)/i.test(ss[i])) continue;
+        var m = /(perpetu\w*|in perpetuity|indefinite\w*|indeterminat\w*|senza limiti di tempo|no expiration)/i.exec(ss[i]);
+        if (m) return { frase:ss[i], hit:m[0] };
+      }
+      return null;
+    } },
+  { id:'DPA-CHK-11', sev:'MEDIA', conf:82, fonte:'GDPR Art. 28(3)(h)',
+    tit:'Nessun diritto di audit riconosciuto al titolare',
+    test:function(t){
+      if (!isDPA(t) || /(audit|ispezion\w+|inspection|verifica ispettiva)/i.test(t)) return null;
+      return { assente:true };
+    } },
+  { id:'DPA-CHK-07', sev:'MEDIA', conf:80, fonte:'GDPR Art. 28(3)(g)',
+    tit:'Cancellazione o restituzione a fine rapporto non prevista',
+    test:function(t){
+      if (!isDPA(t) || /(delet\w+|erasur\w+|return of (the )?data|cancellazion\w+|restituzion\w+)/i.test(t)) return null;
+      return { assente:true };
+    } },
+  { id:'DPA-CHK-02', sev:'MEDIA', conf:78, fonte:'GDPR Art. 28(3)(b)',
+    tit:'Obbligo di riservatezza del personale non richiamato',
+    test:function(t){
+      if (!isDPA(t) || /(confidential\w*|riservatezz\w+|segretezza)/i.test(t)) return null;
+      return { assente:true };
+    } },
+  { id:'SEC-CHK-01', sev:'MEDIA', conf:76, fonte:'GDPR Art. 32',
+    tit:'Misure tecniche e organizzative non richiamate',
+    test:function(t){
+      if (!isDPA(t) || /(art\.?\s*32|article\s*32|technical and organisational|technical and organizational|misure tecniche e organizzative|security measures|misure di sicurezza)/i.test(t)) return null;
+      return { assente:true };
+    } },
+  { id:'LIA-CHK-01', sev:'MEDIA', conf:74, fonte:'Prassi contrattuale · massimale',
+    tit:'Responsabilità senza massimale dichiarato',
+    test:function(t){
+      if (!/(liabilit|responsabilit)/i.test(t)) return null;
+      if (/(shall not exceed|capped at|limited to|massimale|limite di responsabilit|non superiore a|aggregate liability)/i.test(t)) return null;
+      return { assente:true };
+    } },
+  { id:'DPA-CHK-16', sev:'BASSA', conf:72, fonte:'GDPR Art. 28(3)(e)',
+    tit:'Assistenza sui diritti dell’interessato non prevista',
+    test:function(t){
+      if (!isDPA(t) || /(data subject|interessat\w+|subject request|richiesta di accesso)/i.test(t)) return null;
+      return { assente:true };
+    } },
+  { id:'VND-CHK-12', sev:'BASSA', conf:70, fonte:'ISO/IEC 27001:2022 · A.5.19',
+    tit:'Nessuna evidenza di certificazione richiamata',
+    test:function(t){
+      if (!/(security|sicurezza|fornitor|vendor|supplier|processor)/i.test(t)) return null;
+      if (/(ISO\s*\/?\s*IEC?\s*27001|SOC\s*2|certificazion\w+|certificat\w+|attestazion\w+|evidenz\w+)/i.test(t)) return null;
+      return { assente:true };
+    } }
+];
+
+var ORD = { ALTA:0, MEDIA:1, BASSA:2 };
+
+function analizza(t){
+  var found = [];
+  for (var i=0;i<RULES.length;i++){
+    var r = RULES[i], hit = null;
+    try { hit = r.test(t); } catch(e){ hit = null; }
+    if (hit) found.push({ r:r, hit:hit });
+  }
+  found.sort(function(a,b){
+    return (ORD[a.r.sev] - ORD[b.r.sev]) || (b.r.conf - a.r.conf);
+  });
+  return found;
+}
+
+function excerpt(frase, hit){
+  var f = frase.trim();
+  if (f.length > 320) f = f.slice(0, 317) + '…';
+  var e = esc(f), h = esc(hit);
+  var k = e.toLowerCase().indexOf(h.toLowerCase());
+  if (k < 0) return e;
+  return e.slice(0,k) + '<mark>' + e.slice(k, k+h.length) + '</mark>' + e.slice(k+h.length);
+}
+
+function render(found, tooShort){
+  if (tooShort){
+    out.innerHTML = '<span class="lab">ESITO</span><p class="dempty">Servono almeno un paio di clausole per dire qualcosa di sensato. Incolla un po’ più di testo, oppure prova con il DPA di esempio.</p>';
+    return;
+  }
+  if (!found.length){
+    out.innerHTML = '<span class="lab">ESITO</span>'
+      + '<div class="dhead"><span class="n">0</span><span class="t">rilevazioni su 12 regole dell’anteprima</span></div>'
+      + '<p class="dempty">Su questo testo le dodici regole dell’anteprima non hanno trovato nulla. Non significa che il documento sia a posto: significa che serve la checklist completa, che è molto più ampia di così.</p>'
+      + '<div class="gate"><p>L’audit applica la checklist intera ai tuoi documenti reali, con il rapporto e il pacchetto di prove.</p>'
+      + '<a class="btn" href="#audit" style="display:inline-block;text-decoration:none">Prenota un audit · 490–990 €</a></div>';
+    return;
+  }
+
+  var top = found[0], r = top.r, h = top.hit;
+  var html = '<span class="lab">ESITO</span>'
+    + '<div class="dhead"><span class="n">' + found.length + '</span>'
+    + '<span class="t">rilevazion' + (found.length===1?'e':'i') + ' su 12 regole dell’anteprima</span></div>'
+    + '<div class="find">'
+    + '<div class="ft"><i class="dot"></i><b>' + esc(r.tit) + '</b>'
+    + '<span class="sev">' + r.sev + '</span></div>';
+
+  if (h.frase) html += '<blockquote>' + excerpt(h.frase, h.hit) + '</blockquote>';
+  else html += '<blockquote style="background:linear-gradient(168deg,#EFEADD,#DED7C6);color:#5A5142">'
+             + 'Nessuna clausola del testo copre questo obbligo.</blockquote>';
+
+  html += '<div class="rows">'
+    + '<div><span>FONTE</span><b>' + esc(r.fonte) + '</b></div>'
+    + '<div><span>REGOLA</span><b>' + esc(r.id) + '</b></div>'
+    + '<div><span>CONFIDENZA</span><b><em>' + r.conf + '%</em></b></div>'
+    + '</div>';
+  if (r.fix) html += '<div class="fix"><em>REDLINE PROPOSTA</em><q>' + esc(r.fix) + '</q></div>';
+  html += '</div>';
+
+  var rest = found.length - 1;
+  if (rest > 0){
+    html += '<div class="locked">';
+    for (var i=1;i<found.length;i++){
+      html += '<div class="lk"><b>' + esc(found[i].r.tit) + '</b>'
+            + '<span class="pad">' + found[i].r.sev + '</span>'
+            + '<span class="pad">BLOCCATA</span></div>';
+    }
+    html += '</div>';
+    html += '<div class="gate"><p>Su questo testo ci sono <b>altre ' + rest + ' rilevazion' + (rest===1?'e':'i') + '</b>. '
+          + 'L’anteprima ne apre una: le altre, con la clausola esatta e la correzione da mandare, arrivano con l’audit.</p>'
+          + '<a class="btn" href="#audit" style="display:inline-block;text-decoration:none">Sbloccale con un audit · 490–990 €</a></div>';
+  } else {
+    html += '<div class="gate"><p>Questa è l’unica che l’anteprima sa vedere. La checklist completa è molto più ampia.</p>'
+          + '<a class="btn" href="#audit" style="display:inline-block;text-decoration:none">Prenota un audit · 490–990 €</a></div>';
+  }
+  out.innerHTML = html;
+}
+
+var SAMPLE = [
+  'DATA PROCESSING AGREEMENT — CLOUDSUITE S.R.L.',
+  '',
+  '§ 9 — Personal Data Breach',
+  'In the event of a personal data breach, the Processor shall notify the Controller within ninety-six (96) hours after becoming aware of it.',
+  '',
+  '§ 10 — Sub-processors',
+  'The Processor may engage sub-processors for the performance of the Services and shall inform the Controller of any such change.',
+  '',
+  '§ 11 — International Transfers',
+  'The Processor may transfer personal data outside the EEA for support purposes.',
+  '',
+  '§ 14 — Liability',
+  'Each party shall be liable for direct damages arising out of this Agreement.',
+  '',
+  '§ 18 — Governing Law',
+  'This Agreement shall be governed by the laws of the State of Delaware.'
+].join('\n');
+
+function go(){
+  var t = ta.value || '';
+  render(analizza(t), t.trim().length < 120);
+  out.scrollIntoView({ block:'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+}
+run.addEventListener('click', go);
+$('#dsample').addEventListener('click', function(){ ta.value = SAMPLE; go(); });
+$('#dpick').addEventListener('click', function(){ $('#dfile').click(); });
+$('#dfile').addEventListener('change', function(e){
+  var f = e.target.files && e.target.files[0]; if (!f) return;
+  var fr = new FileReader();
+  fr.onload = function(){ ta.value = String(fr.result).slice(0, 200000); go(); };
+  fr.readAsText(f);
+});
+ta.addEventListener('keydown', function(e){
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') go();
+});
 })();
 </script>
 </body>
