@@ -1195,7 +1195,7 @@ function tick(){
   if (!primed || Math.abs(pNow - pTarget) > 0.00008 || !STATIC){
     renderFilm(pNow); primed = true;
   }
-  sTick();
+  sTick(performance.now());
   requestAnimationFrame(tick);
 }
 
@@ -1214,30 +1214,38 @@ var FLAT = 0.42;                       /* schiacciamento delle orbite: vista tre
 /* Cinque divisioni = cinque orbite. Su ognuna, punti che sono i rischi
    di quella divisione. Nessun pianeta: e' un radar, non un planetario.
    Il punto centrale e' Kompla e non porta il marchio dentro. */
-var R_CORE = 0.018;                    /* raggio del punto centrale, in unita' mondo */
-var R_MIN  = 0.31;                     /* l'orbita piu' interna: nessun punto scende sotto */
+var R_CORE = 0.016;                    /* raggio del punto centrale, in unita' mondo */
+var R_MIN  = 0.26;                     /* l'orbita piu' interna: nessun punto scende sotto */
 
+/* Il sistema gira su un OROLOGIO PROPRIO, non sullo scroll. Se le orbite sono
+   agganciate al progresso, smettere di scorrere congela tutto e si legge come
+   un blocco. Lo scroll muove solo la camera; il sistema e' sempre vivo. */
+var sClock = 0, sLastT = 0;
+
+/* Periodi lunghi e ordinati: piu' si sta all'interno, piu' si e' veloci.
+   Un punto ogni n/n di giro, senza scarti casuali: la regolarita' e' il lusso. */
 var RINGS = [
-  { R:1.00, spin:0.30, nome:'CONTRATTI E DPA',          n:9, lab:-0.62 },
-  { R:0.82, spin:0.38, nome:'FORNITORI E VENDOR RISK',  n:8, lab: 2.62 },
-  { R:0.64, spin:0.47, nome:'QUESTIONARI DI SICUREZZA', n:7, lab: 0.92 },
-  { R:0.47, spin:0.58, nome:'SITO, COOKIE E MARKETING', n:6, lab: 3.72 },
-  { R:R_MIN, spin:0.72, nome:'AI ACT E NIS2',           n:5, lab:-1.48 }
+  { R:1.00, per:132, nome:'CONTRATTI E DPA',          n:5, ph:0.00, fi:0, lab:-0.62 },
+  { R:0.80, per:104, nome:'FORNITORI E VENDOR RISK',  n:5, ph:0.63, fi:2, lab: 2.62 },
+  { R:0.60, per: 82, nome:'QUESTIONARI DI SICUREZZA', n:4, ph:0.28, fi:1, lab: 0.92 },
+  { R:0.42, per: 62, nome:'SITO, COOKIE E MARKETING', n:4, ph:0.85, fi:3, lab: 3.66 },
+  { R:R_MIN, per: 46, nome:'AI ACT E NIS2',           n:3, ph:0.40, fi:0, lab:-1.52 }
 ];
 
-(function seminaPunti(){
-  var r = 0x2545F491;
-  function rnd(){ r ^= r<<13; r ^= r>>>17; r ^= r<<5; return ((r>>>0) % 100000)/100000; }
+(function disponiPunti(){
   for (var i=0;i<RINGS.length;i++){
-    var d = RINGS[i]; d.dots = [];
-    d.fi = 1 + (i % 2);                                  /* quale punto la camera aggancia */
+    var d = RINGS[i];
+    d.w = Math.PI*2 / d.per;
+    d.dots = [];
     for (var k=0;k<d.n;k++){
-      var kind = (k === d.fi) ? 'risk' : (rnd() < 0.28 ? 'risk' : (rnd() < 0.45 ? 'ok' : 'pale'));
+      /* un solo rischio aperto per divisione, uno verificato, il resto in coda:
+         il colore vuole dire qualcosa, non e' decorazione */
+      var kind = (k === d.fi) ? 'risk' : (k === (d.fi + 2) % d.n ? 'ok' : 'pale');
       d.dots.push({
-        a0: (k / d.n) * Math.PI*2 + rnd()*0.34,
+        a0: d.ph + (k / d.n) * Math.PI*2,
         kind: kind,
-        sz: 0.0062 + rnd()*0.0034,
-        ph: rnd()*6.28
+        sz: kind === 'pale' ? 0.0062 : 0.0086,
+        ph: (i*1.7 + k*0.9)
       });
     }
   }
@@ -1246,12 +1254,13 @@ var RINGS = [
 /* i documenti entrano a SPIRALE, in coordinate polari: il raggio scende solo
    fino a quello della propria orbita, quindi nessuno passa mai dal centro */
 var ARRIVI = (function(){
-  var r = 0x7F4A7C15, out = [];
-  function rnd(){ r ^= r<<13; r ^= r>>>17; r ^= r<<5; return ((r>>>0) % 100000)/100000; }
+  var out = [];
   for (var i=0;i<RINGS.length;i++){
     for (var k=0;k<RINGS[i].n;k++){
-      out.push({ ri:i, di:k, r0: 2.1 + rnd()*1.0, da: 1.0 + rnd()*1.6,
-                 t0: 0.004 + rnd()*0.045, sz: 0.6 + rnd()*0.5 });
+      out.push({ ri:i, di:k,
+                 r0: 2.0 + ((i*3 + k*7) % 9) * 0.11,
+                 da: 0.9 + ((i*5 + k*3) % 7) * 0.16,
+                 t0: 0.004 + (i*RINGS[i].n + k) * 0.0034 });
     }
   }
   return out;
@@ -1288,21 +1297,19 @@ var lerp   = function(a,b,u){ return a + (b-a)*u; };
 var STARS = (function(){
   var r = 0x9E3779B1, out = [];
   function rnd(){ r ^= r<<13; r ^= r>>>17; r ^= r<<5; return ((r>>>0) % 100000)/100000; }
-  for (var i=0;i<200;i++){
-    var ang = rnd()*Math.PI*2, rad = 0.3 + Math.pow(rnd(),0.6)*2.2;
+  for (var i=0;i<110;i++){
+    var ang = rnd()*Math.PI*2, rad = 0.45 + Math.pow(rnd(),0.6)*2.0;
     out.push({ x:Math.cos(ang)*rad, y:Math.sin(ang)*rad*0.8,
-               d:0.18 + rnd()*0.5, s:0.5 + rnd()*1.1, a:0.14 + rnd()*0.34, tw:rnd()*6.28 });
+               d:0.2 + rnd()*0.45, s:0.5 + rnd()*0.8, a:0.10 + rnd()*0.22, tw:rnd()*6.28 });
   }
   return out;
 })();
 
-function dotAngle(d, dot, p){ return dot.a0 + p * d.spin * Math.PI * 2; }
-function dotPos(d, dot, p){
-  var a = dotAngle(d, dot, p);
+function dotAngle(d, dot){ return dot.a0 + sClock * d.w; }
+function dotPos(d, dot, ofs){
+  var a = dotAngle(d, dot) - (ofs || 0);
   return [Math.cos(a)*d.R, Math.sin(a)*d.R*FLAT];
 }
-/* quanto il punto agganciato e' "in primo piano": sale all'inizio del tuffo,
-   resta, e si spegne quando la camera torna in orbita */
 function focusOf(i, p){
   var g = DIVESEG[i]; if (!g) return 0;
   return clamp(ramp(p, g.a, g.a + 0.045) - ramp(p, g.b - 0.012, g.b + 0.028), 0, 1);
@@ -1312,10 +1319,9 @@ function sStateOf(k, p){
   if (k < 0) return { cx:0, cy:0, sc:0.26 };
   var g = SEG[k];
   if (g.dive !== undefined){
-    var d = RINGS[g.dive], q = dotPos(d, d.dots[d.fi], p), SC = 2.35;
+    var d = RINGS[g.dive], q = dotPos(d, d.dots[d.fi], 0), SC = 2.35;
     var U = SC * Math.min(sW, sH) || 1;
-    /* il punto agganciato non deve finire sotto la scheda: su schermo largo
-       la scheda sta a destra, su schermo stretto sta in basso */
+    /* il punto agganciato non deve finire sotto la scheda */
     if (sW >= 900) return { cx:q[0] + (sW * 0.15) / U, cy:q[1] - (sH * 0.03) / U, sc:SC };
     return { cx:q[0], cy:q[1] + (sH * 0.17) / U, sc:SC };
   }
@@ -1329,7 +1335,6 @@ function sCamera(p){
   var A = sStateOf(k-1, p), B = sStateOf(k, p);
   return {
     cx: lerp(A.cx, B.cx, u), cy: lerp(A.cy, B.cy, u),
-    /* scala esponenziale: lineare si legge come uno strappo e poi una frenata */
     sc: A.sc * Math.pow(B.sc / A.sc, u),
     seg: k
   };
@@ -1345,77 +1350,94 @@ function sSize(){
   sCtx.setTransform(sDPR, 0, 0, sDPR, 0, 0);
 }
 
-/* il centro: un punto che pulsa ed emette echi. Nessun marchio dentro. */
-function sDrawCore(cam, U, p){
+/* il centro: un punto che respira ed emette echi. Nessun marchio dentro. */
+function sDrawCore(cam, U){
   var x = sW/2 - cam.cx*U, y = sH/2 - cam.cy*U, r = R_CORE * U;
   if (r < 0.4) return;
   var i, g;
-  for (i=0;i<3;i++){
-    var f = ((p * 2.4 + i/3) % 1);
-    var rr = r * (1 + f * 9), al = (1 - f) * 0.26;
-    if (al <= 0.002) continue;
+  for (i=0;i<2;i++){
+    var f = ((sClock / 4.4 + i/2) % 1);
+    var rr = r * (1 + f * 8), al = (1 - f) * (1 - f) * 0.22;
+    if (al <= 0.003) continue;
     sCtx.strokeStyle = 'rgba(245,166,35,' + al.toFixed(3) + ')';
-    sCtx.lineWidth = Math.max(1, r*0.09);
+    sCtx.lineWidth = Math.max(1, r*0.07);
     sCtx.beginPath(); sCtx.arc(x, y, rr, 0, 6.2832); sCtx.stroke();
   }
-  g = sCtx.createRadialGradient(x, y, r*0.3, x, y, r*6);
-  g.addColorStop(0,'rgba(245,166,35,0.30)'); g.addColorStop(1,'rgba(245,166,35,0)');
-  sCtx.fillStyle = g; sCtx.beginPath(); sCtx.arc(x, y, r*6, 0, 6.2832); sCtx.fill();
+  g = sCtx.createRadialGradient(x, y, r*0.3, x, y, r*6.5);
+  g.addColorStop(0,'rgba(245,166,35,0.34)'); g.addColorStop(1,'rgba(245,166,35,0)');
+  sCtx.fillStyle = g; sCtx.beginPath(); sCtx.arc(x, y, r*6.5, 0, 6.2832); sCtx.fill();
 
-  g = sCtx.createRadialGradient(x - r*0.25, y - r*0.25, r*0.08, x, y, r);
-  g.addColorStop(0,'#FFF0CE'); g.addColorStop(0.5,'#F7B83F'); g.addColorStop(1,'#D0860F');
-  sCtx.fillStyle = g; sCtx.beginPath(); sCtx.arc(x, y, r, 0, 6.2832); sCtx.fill();
+  var br = 0.94 + 0.06*Math.sin(sClock*0.7);
+  g = sCtx.createRadialGradient(x - r*0.24, y - r*0.24, r*0.06, x, y, r*br);
+  g.addColorStop(0,'#FFF3DA'); g.addColorStop(0.48,'#F8BC48'); g.addColorStop(1,'#CE840E');
+  sCtx.fillStyle = g; sCtx.beginPath(); sCtx.arc(x, y, r*br, 0, 6.2832); sCtx.fill();
 }
 
-function sDrawRing(d, cam, U, alpha, hot){
+function sDrawRing(d, cam, U, alpha, hot, outer){
   var ox = sW/2 - cam.cx*U, oy = sH/2 - cam.cy*U;
   var rx = d.R*U, ry = d.R*FLAT*U;
-  if (rx < 2) return;
-  sCtx.strokeStyle = 'rgba(245,166,35,' + ((0.13 + hot*0.30) * alpha).toFixed(3) + ')';
-  sCtx.lineWidth = 1 + hot*0.6;
+  if (rx < 2 || alpha <= 0.01) return;
+  sCtx.strokeStyle = 'rgba(245,166,35,' + ((0.19 + hot*0.30) * alpha).toFixed(3) + ')';
+  sCtx.lineWidth = 1 + hot*0.5;
   sCtx.beginPath(); sCtx.ellipse(ox, oy, rx, ry, 0, 0, 6.2832); sCtx.stroke();
-  /* tacche di portata: e' cio' che lo rende un radar e non un'orbita qualunque */
-  if (rx > 60){
-    var n = 48, tl = Math.max(2, Math.min(7, rx*0.012));
-    sCtx.strokeStyle = 'rgba(245,166,35,' + ((0.10 + hot*0.22) * alpha).toFixed(3) + ')';
+  /* tacche di portata solo sull'orbita esterna: su tutte erano una grattugia */
+  if (outer && rx > 90){
+    var n = 24, tl = Math.max(3, Math.min(8, rx*0.013));
+    sCtx.strokeStyle = 'rgba(245,166,35,' + (0.20 * alpha).toFixed(3) + ')';
     sCtx.lineWidth = 1;
     for (var i=0;i<n;i++){
       var a = (i/n)*Math.PI*2;
       var cx1 = ox + Math.cos(a)*rx, cy1 = oy + Math.sin(a)*ry;
       var nx = Math.cos(a), ny = Math.sin(a)*FLAT, L = Math.hypot(nx, ny) || 1;
       sCtx.beginPath();
-      sCtx.moveTo(cx1, cy1);
-      sCtx.lineTo(cx1 + nx/L*tl, cy1 + ny/L*tl);
-      sCtx.stroke();
+      sCtx.moveTo(cx1, cy1); sCtx.lineTo(cx1 + nx/L*tl, cy1 + ny/L*tl); sCtx.stroke();
     }
   }
 }
 
-var COL = {
-  pale: [180,192,212],
-  risk: [245,166,35],
-  ok:   [28,191,180]
-};
+var COL = { pale:[168,182,204], risk:[245,166,35], ok:[28,191,180] };
 
-function sDrawDot(d, dot, p, cam, U, alpha, focus, dim){
-  var q = dotPos(d, dot, p);
-  var x = sW/2 + (q[0] - cam.cx)*U, y = sH/2 + (q[1] - cam.cy)*U;
+function sDrawDot(d, dot, cam, U, alpha, focus, dim){
+  var rgbArr = COL[dot.kind], rgb = rgbArr[0]+','+rgbArr[1]+','+rgbArr[2];
   var base = dot.sz * U * (1 + focus*3.1);
-  if (base < 0.25) return;
-  if (x < -80 || x > sW+80 || y < -80 || y > sH+80) return;
-  var c = COL[dot.kind], rgb = c[0]+','+c[1]+','+c[2];
-  var tw = 0.72 + 0.28*Math.sin(p*26 + dot.ph);
-  var A = alpha * dim * (dot.kind === 'pale' ? 0.62 : 0.95) * tw;
+  if (base < 0.25 || alpha <= 0.01) return;
+  var q = dotPos(d, dot, 0);
+  var x = sW/2 + (q[0] - cam.cx)*U, y = sH/2 + (q[1] - cam.cy)*U;
+  if (x < -140 || x > sW+140 || y < -140 || y > sH+140) return;
+
+  /* respiro lento sul proprio orologio: da fermi il sistema resta vivo */
+  var breath = 0.88 + 0.12*Math.sin(sClock*0.8 + dot.ph);
+  var A = alpha * dim * (dot.kind === 'pale' ? 0.70 : 1) * breath;
+
+  /* scia: un arco che segue esattamente l'orbita. E' il moto, reso ordinato. */
+  /* la scia si ritira durante l'aggancio: li' basta il reticolo, e una coda
+     spessa fatta di archi separati si legge come un blocco squadrato */
+  var trailA = A * (1 - focus*0.88);
+  if (base > 1.1 && dim > 0.5 && trailA > 0.02){
+    var ox = sW/2 - cam.cx*U, oy = sH/2 - cam.cy*U, a0 = dotAngle(d, dot);
+    var steps = 12, span = 0.16;
+    var wMax = Math.min(base * 0.7, 3.2);
+    sCtx.save();
+    sCtx.lineCap = 'round';
+    for (var t=0;t<steps;t++){
+      var aa = a0 - (t/steps)*span, ab = a0 - ((t+1.15)/steps)*span;
+      var al = (1 - t/steps) * (1 - t/steps) * 0.62 * trailA;
+      if (al < 0.004) break;
+      sCtx.strokeStyle = 'rgba(' + rgb + ',' + al.toFixed(4) + ')';
+      sCtx.lineWidth = Math.max(0.9, wMax*(1 - t/steps));
+      sCtx.beginPath(); sCtx.ellipse(ox, oy, d.R*U, d.R*FLAT*U, 0, ab, aa); sCtx.stroke();
+    }
+    sCtx.restore();
+  }
 
   sCtx.save();
   if (dot.kind !== 'pale' || focus > 0){
-    sCtx.shadowColor = 'rgba(' + rgb + ',' + (0.8*A).toFixed(3) + ')';
-    sCtx.shadowBlur = base * (3.2 + focus*3);
+    sCtx.shadowColor = 'rgba(' + rgb + ',' + (0.75*A).toFixed(3) + ')';
+    sCtx.shadowBlur = base * (3 + focus*3);
   }
   if (base > 9){
-    /* da vicino un punto pieno si legge piatto: cuore luminoso e bordo netto */
     var gg = sCtx.createRadialGradient(x - base*0.3, y - base*0.3, base*0.05, x, y, base);
-    gg.addColorStop(0, 'rgba(255,255,255,' + (A*0.92).toFixed(3) + ')');
+    gg.addColorStop(0, 'rgba(255,255,255,' + (A*0.9).toFixed(3) + ')');
     gg.addColorStop(0.38, 'rgba(' + rgb + ',' + A.toFixed(3) + ')');
     gg.addColorStop(1, 'rgba(' + rgb + ',' + (A*0.55).toFixed(3) + ')');
     sCtx.fillStyle = gg;
@@ -1425,21 +1447,16 @@ function sDrawDot(d, dot, p, cam, U, alpha, focus, dim){
   sCtx.beginPath(); sCtx.arc(x, y, base, 0, 6.2832); sCtx.fill();
   sCtx.restore();
 
-  /* aggancio: un cerchio di mira e quattro tacche, come su un radar */
+  /* aggancio: un cerchio di mira che ruota lentamente */
   if (focus > 0.01){
-    var rr = base * 2.9, al = focus * 0.9;
-    sCtx.strokeStyle = 'rgba(' + rgb + ',' + (al*0.75).toFixed(3) + ')';
-    sCtx.lineWidth = 1.2;
+    var rr = base * 2.9, al2 = focus * 0.9, sp = sClock * 0.22;
+    sCtx.strokeStyle = 'rgba(' + rgb + ',' + (al2*0.7).toFixed(3) + ')';
+    sCtx.lineWidth = 1.1;
     sCtx.beginPath(); sCtx.arc(x, y, rr, 0, 6.2832); sCtx.stroke();
-    sCtx.strokeStyle = 'rgba(' + rgb + ',' + (al*0.5).toFixed(3) + ')';
-    sCtx.beginPath(); sCtx.arc(x, y, rr*1.55, -0.5, 1.1); sCtx.stroke();
-    sCtx.beginPath(); sCtx.arc(x, y, rr*1.55, Math.PI-0.5, Math.PI+1.1); sCtx.stroke();
-    for (var i=0;i<4;i++){
-      var a = i*Math.PI/2 + Math.PI/4;
-      sCtx.beginPath();
-      sCtx.moveTo(x + Math.cos(a)*rr*1.18, y + Math.sin(a)*rr*1.18);
-      sCtx.lineTo(x + Math.cos(a)*rr*1.42, y + Math.sin(a)*rr*1.42);
-      sCtx.stroke();
+    sCtx.strokeStyle = 'rgba(' + rgb + ',' + (al2*0.45).toFixed(3) + ')';
+    for (var j=0;j<4;j++){
+      var aj = sp + j*Math.PI/2;
+      sCtx.beginPath(); sCtx.arc(x, y, rr*1.5, aj + 0.18, aj + 0.92); sCtx.stroke();
     }
   }
 }
@@ -1449,7 +1466,7 @@ function sRender(p){
   var cam = sCamera(p), U = cam.sc * Math.min(sW, sH), i, k;
 
   var bg = sCtx.createRadialGradient(sW/2, sH*0.46, 0, sW/2, sH*0.5, Math.max(sW,sH)*0.82);
-  bg.addColorStop(0,'#0E1B2E'); bg.addColorStop(0.5,'#09111F'); bg.addColorStop(1,'#05090F');
+  bg.addColorStop(0,'#0D1A2C'); bg.addColorStop(0.5,'#08101D'); bg.addColorStop(1,'#05090F');
   sCtx.fillStyle = bg; sCtx.fillRect(0, 0, sW, sH);
 
   var Uw = 0.42 * Math.min(sW, sH);
@@ -1457,97 +1474,84 @@ function sRender(p){
     var st = STARS[i];
     var sx = sW/2 + (st.x - cam.cx*st.d)*Uw, sy = sH/2 + (st.y - cam.cy*st.d)*Uw;
     if (sx < -4 || sx > sW+4 || sy < -4 || sy > sH+4) continue;
-    sCtx.globalAlpha = st.a * (0.6 + 0.4*Math.sin(p*40 + st.tw));
-    sCtx.fillStyle = '#B9C9E0';
+    sCtx.globalAlpha = st.a * (0.66 + 0.34*Math.sin(sClock*0.5 + st.tw));
+    sCtx.fillStyle = '#AEC0D8';
     sCtx.fillRect(sx, sy, st.s, st.s);
   }
   sCtx.globalAlpha = 1;
 
-  /* raggi di riferimento */
-  var ox = sW/2 - cam.cx*U, oy = sH/2 - cam.cy*U, RX = U, RY = U*FLAT;
-  if (U > 90){
-    sCtx.strokeStyle = 'rgba(180,192,212,0.045)'; sCtx.lineWidth = 1;
-    for (i=0;i<12;i++){
-      var a2 = i*Math.PI/6;
+  var ox = sW/2 - cam.cx*U, oy = sH/2 - cam.cy*U;
+  var wide = clamp(1 - ramp(cam.sc, 0.72, 1.5), 0, 1);
+  var wideSweep = clamp(1 - ramp(cam.sc, 0.58, 1.15), 0, 1);
+
+  /* la spazzata: lenta, sul proprio orologio, e da vicino si ritira */
+  if (wideSweep > 0.01){
+    var swA = -Math.PI/2 + (sClock / 26) * Math.PI * 2;
+    for (i=0;i<70;i++){
+      var aa2 = swA - i*0.015, al3 = Math.pow(1 - i/70, 1.8) * 0.05 * wideSweep;
+      sCtx.fillStyle = 'rgba(245,166,35,' + al3.toFixed(4) + ')';
       sCtx.beginPath(); sCtx.moveTo(ox, oy);
-      sCtx.lineTo(ox + Math.cos(a2)*RX, oy + Math.sin(a2)*RY); sCtx.stroke();
+      sCtx.ellipse(ox, oy, U, U*FLAT, 0, aa2 - 0.016, aa2);
+      sCtx.closePath(); sCtx.fill();
     }
   }
 
-  var wideSweep = clamp(1 - ramp(cam.sc, 0.62, 1.25), 0, 1);
-  /* la spazzata: un solo tratto che gira, appena percepibile.
-     Da vicino si ritira: a quello zoom laverebbe mezzo schermo. */
-  var swA = p * Math.PI * 2 * 2.6;
-  sCtx.save();
-  for (i=0;i<64 && wideSweep > 0.01;i++){
-    var aa = swA - i*0.016, al = Math.pow(1 - i/64, 1.9) * 0.055 * wideSweep;
-    sCtx.fillStyle = 'rgba(245,166,35,' + al.toFixed(4) + ')';
-    sCtx.beginPath(); sCtx.moveTo(ox, oy);
-    sCtx.ellipse(ox, oy, RX, RY, 0, aa - 0.017, aa);
-    sCtx.closePath(); sCtx.fill();
-  }
-  sCtx.restore();
-
-  var wide = clamp(1 - ramp(cam.sc, 0.72, 1.5), 0, 1);
   var anyFocus = 0;
   for (i=0;i<RINGS.length;i++) anyFocus = Math.max(anyFocus, focusOf(i, p));
 
   for (i=0;i<RINGS.length;i++){
     var d = RINGS[i];
-    var nato = ramp(p, 0.004 + i*0.012, 0.058 + i*0.012);
+    var nato = ramp(p, 0.004 + i*0.011, 0.056 + i*0.011);
     var f = focusOf(i, p);
-    sDrawRing(d, cam, U, nato * (0.5 + 0.5*(1-anyFocus) + f*0.5), f);
+    sDrawRing(d, cam, U, nato * (0.55 + 0.45*(1-anyFocus) + f*0.45), f, i === 0);
   }
 
-  sDrawCore(cam, U, p);
+  sDrawCore(cam, U);
 
   /* l'arrivo: spirale in coordinate polari, il raggio non scende mai
      sotto quello dell'orbita di destinazione */
   if (p < 0.10){
     for (i=0;i<ARRIVI.length;i++){
-      var ar = ARRIVI[i], u = ramp(p, ar.t0, ar.t0 + 0.042);
+      var ar = ARRIVI[i], u = ramp(p, ar.t0, ar.t0 + 0.046);
       if (u <= 0 || u >= 1) continue;
       var dd = RINGS[ar.ri], dt = dd.dots[ar.di], e = smooth(u);
-      var aT = dotAngle(dd, dt, p);
+      var aT = dotAngle(dd, dt);
       var rad = lerp(ar.r0, dd.R, e), ang = lerp(aT + ar.da, aT, e);
       var wx = Math.cos(ang)*rad, wy = Math.sin(ang)*rad*FLAT;
       var x2 = sW/2 + (wx - cam.cx)*U, y2 = sH/2 + (wy - cam.cy)*U;
-      var w = 6*ar.sz, h = 8.4*ar.sz;
       sCtx.save();
-      sCtx.globalAlpha = Math.min(1, u*4) * (1 - ramp(u, 0.74, 1));
+      sCtx.globalAlpha = Math.min(1, u*4) * (1 - ramp(u, 0.7, 1)) * 0.75;
       sCtx.translate(x2, y2); sCtx.rotate(ang + 1.57);
-      sCtx.strokeStyle = 'rgba(214,222,236,0.8)'; sCtx.lineWidth = 1;
-      sCtx.strokeRect(-w/2, -h/2, w, h);
+      sCtx.strokeStyle = 'rgba(206,218,236,0.85)'; sCtx.lineWidth = 1;
+      sCtx.strokeRect(-3.4, -4.6, 6.8, 9.2);
       sCtx.restore();
     }
   }
 
   for (i=0;i<RINGS.length;i++){
     var dv = RINGS[i], fo = focusOf(i, p);
-    var nato2 = ramp(p, 0.004 + i*0.012, 0.062 + i*0.012);
-    var dim = anyFocus > 0 ? (fo > 0 ? 1 : 0.30) : 1;
+    var nato2 = ramp(p, 0.004 + i*0.011, 0.060 + i*0.011);
+    var dim = anyFocus > 0 ? (fo > 0 ? 1 : 0.26) : 1;
     for (k=0;k<dv.dots.length;k++){
-      sDrawDot(dv, dv.dots[k], p, cam, U, nato2, (k === dv.fi ? fo : 0), dim);
+      sDrawDot(dv, dv.dots[k], cam, U, nato2, (k === dv.fi ? fo : 0), dim);
     }
-    /* etichetta della divisione, ancorata al bordo destro della sua orbita */
-    var la = nato2 * wide * (anyFocus > 0 ? 0.22 : 1);
+    var la = nato2 * wide * (anyFocus > 0 ? 0.18 : 1);
     if (la > 0.02){
       var ca = Math.cos(dv.lab), sa = Math.sin(dv.lab);
-      var lx = sW/2 + (ca*dv.R - cam.cx)*U + ca*13;
-      var ly = sH/2 + (sa*dv.R*FLAT - cam.cy)*U + sa*13;
+      var lx = sW/2 + (ca*dv.R - cam.cx)*U + ca*14;
+      var ly = sH/2 + (sa*dv.R*FLAT - cam.cy)*U + sa*14;
       if (lx > -240 && lx < sW + 240 && ly > -40 && ly < sH + 40){
         sCtx.globalAlpha = la;
-        sCtx.fillStyle = 'rgba(180,192,212,0.92)';
+        sCtx.fillStyle = 'rgba(168,182,204,0.85)';
         sCtx.font = '500 9.5px IBM Plex Mono, ui-monospace, monospace';
         sCtx.textAlign = ca >= 0 ? 'left' : 'right';
         sCtx.textBaseline = 'middle';
         sCtx.shadowColor = 'rgba(0,0,0,0.95)'; sCtx.shadowBlur = 11;
         sCtx.fillText(dv.nome, lx, ly);
-        /* un trattino che la lega alla sua orbita */
-        sCtx.strokeStyle = 'rgba(180,192,212,0.32)'; sCtx.lineWidth = 1;
+        sCtx.strokeStyle = 'rgba(168,182,204,0.24)'; sCtx.lineWidth = 1;
         sCtx.beginPath();
-        sCtx.moveTo(sW/2 + (ca*dv.R - cam.cx)*U + ca*3, sH/2 + (sa*dv.R*FLAT - cam.cy)*U + sa*3);
-        sCtx.lineTo(lx - (ca >= 0 ? 4 : -4), ly);
+        sCtx.moveTo(sW/2 + (ca*dv.R - cam.cx)*U + ca*4, sH/2 + (sa*dv.R*FLAT - cam.cy)*U + sa*4);
+        sCtx.lineTo(lx - (ca >= 0 ? 5 : -5), ly);
         sCtx.stroke();
         sCtx.shadowBlur = 0; sCtx.globalAlpha = 1;
       }
@@ -1555,11 +1559,11 @@ function sRender(p){
   }
 
   for (i=0;i<CARDS.length;i++){
-    var c = CARDS[i], al2 = beatAlpha(c, p);
-    if (al2 === c.shown) continue;
-    c.shown = al2;
-    c.el.style.opacity = al2.toFixed(3);
-    c.el.style.transform = 'translateY(calc(-50% + ' + ((1-al2)*18).toFixed(1) + 'px))';
+    var c = CARDS[i], al4 = beatAlpha(c, p);
+    if (al4 === c.shown) continue;
+    c.shown = al4;
+    c.el.style.opacity = al4.toFixed(3);
+    c.el.style.transform = 'translateY(calc(-50% + ' + ((1-al4)*18).toFixed(1) + 'px))';
   }
   for (i=0;i<sBeats.length;i++){
     var bt = sBeats[i], ba = beatAlpha(bt, p);
@@ -1583,14 +1587,22 @@ function sRender(p){
 }
 
 var sNow = 0, sTargetP = 0;
-function sTick(){
+function sTick(now){
   if (!sCtx || !sWrap) return;
   var r = sWrap.getBoundingClientRect();
-  if (r.bottom < -200 || r.top > innerHeight + 200) return;
+  if (r.bottom < -200 || r.top > innerHeight + 200){ sLastT = 0; return; }
   if (sW !== innerWidth || sH !== innerHeight) sSize();
+  /* delta reale, con un tetto: se la scheda torna in primo piano dopo
+     minuti, il sistema non deve scattare in avanti */
+  if (!REDUCE){
+    var t = now || performance.now();
+    if (sLastT) sClock += Math.min(0.05, (t - sLastT) / 1000);
+    sLastT = t;
+  }
   var span = r.height - innerHeight;
   sTargetP = REDUCE ? 0.16 : clamp(span > 0 ? -r.top / span : 0, 0, 1);
-  sNow += (sTargetP - sNow) * (STATIC ? 1 : 0.14);
+  /* smorzamento piu' morbido: la camera insegue lo scroll senza strappi */
+  sNow += (sTargetP - sNow) * (STATIC ? 1 : 0.085);
   sRender(sNow);
 }
 

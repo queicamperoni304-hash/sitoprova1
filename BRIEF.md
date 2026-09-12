@@ -163,8 +163,39 @@ quella divisione, ogni rischio con la sua fonte normativa.
 - la spazzata si ritira quando la camera scende: da vicino laverebbe mezzo schermo
 - tacche di portata sulle orbite: e' cio' che lo rende un radar
 
+### L'OROLOGIO E' SEPARATO DALLO SCROLL — la correzione piu' importante
+Prima orbite, spazzata, echi del centro e pulsazioni erano tutti funzione del
+progresso di scroll. Smettere di scorrere CONGELAVA il sistema, e si leggeva
+come un bug. Ora c'e' `sClock`, che avanza con il delta reale di rAF (con un
+tetto di 50ms per frame, cosi' tornare sulla sezione dopo minuti non fa
+scattare tutto in avanti). Lo scroll muove SOLO la camera.
+NON RIAGGANCIARE la rotazione al progresso: e' la differenza fra un sistema
+vivo e uno rotto.
+
+### Ordine contro "AI slop"
+Erano 35 punti sparsi ad angoli casuali, con dimensioni e colori casuali, piu'
+12 raggi, 48 tacche per ogni orbita e 240 stelle. Quel tipo di rumore casuale
+E' la texture del generato male. Ora:
+- 21 punti, spaziati in modo ESATTO (k/n del giro) con una fase per orbita
+- il colore vuole dire qualcosa: 1 rischio aperto per divisione (ambra),
+  1 verificato (teal), il resto in coda (pallido). Niente colori a caso.
+- due sole dimensioni, non una variabile casuale
+- raggi radiali rimossi; tacche solo sull'orbita esterna, 24 invece di 48
+- stelle da 240 a 110
+- periodi orbitali lunghi e ordinati (132s fuori, 46s dentro): lentezza = lusso
+NON reintrodurre jitter casuale "per renderlo naturale": e' il difetto che
+l'utente ha chiamato per nome.
+
+### Le scie
+Un arco corto (0.16 rad) che segue esattamente l'orbita, con lineCap round.
+Si RITIRA durante l'aggancio (trailA = A * (1 - focus*0.88)): a reticolo aperto
+una coda spessa fatta di archi separati si legge come un blocco squadrato.
+
 ### Jank misurato
-mediana 16,7ms · p95 16,8ms · max 33,3ms — stabile su due corse.
+scorrendo · mediana 16,7ms · p95 16,7ms · max 16,8ms
+da fermo  · mediana 16,7ms · p95 16,8ms · max 16,8ms
+Zero frame persi in entrambi gli stati. "Da fermo" ora e' un caso reale da
+misurare, perche' il sistema continua a girare.
 
 ---
 
