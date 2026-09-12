@@ -185,19 +185,58 @@ p{margin:0 0 18px}
   font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; color:var(--dim);
 }
 
-/* timeline moduli */
+/* timeline moduli — l'ambra marca cio' che e' ATTIVO OGGI, non un avanzamento.
+   Il futuro e' TRATTEGGIATO e i suoi nodi sono vuoti: una linea continua con
+   un solo segmento acceso si legge come una barra di caricamento rotta. */
 .tl{display:flex; gap:0; margin-top:10px; flex-wrap:wrap}
 .tl div{
-  flex:1 1 160px; padding:20px 18px 0; border-top:2px solid rgba(44,66,101,.8); position:relative;
+  flex:1 1 160px; padding:22px 18px 0; position:relative;
+  border-top:2px dashed rgba(44,66,101,.9);
 }
-.tl div:first-child{border-top-color:var(--amber)}
+.tl div:first-child{border-top-style:solid}
+/* il segmento attivo si disegna all'ingresso e poi SI FERMA su OGGI:
+   fermarsi visibilmente e' diverso dal non essere mai partiti */
+.tl div:first-child::after{
+  content:""; position:absolute; left:0; right:0; top:-2px; height:2px;
+  background:var(--amber); box-shadow:0 0 12px rgba(245,166,35,.55);
+  transform:scaleX(0); transform-origin:0 50%;
+  transition:transform 1s var(--ease) .2s;
+}
+.section.in .tl div:first-child::after{transform:scaleX(1)}
 .tl div::before{
-  content:""; position:absolute; left:0; top:-5px; width:8px; height:8px; border-radius:50%;
-  background:var(--line);
+  content:""; position:absolute; left:0; top:-6px; width:10px; height:10px; border-radius:50%;
+  box-sizing:border-box; background:var(--ink); border:2px solid rgba(70,97,140,.95); z-index:2;
 }
-.tl div:first-child::before{background:var(--amber); box-shadow:0 0 14px var(--amber)}
+.tl div:first-child::before{
+  background:var(--amber); border-color:var(--amber); box-shadow:0 0 14px rgba(245,166,35,.85);
+}
 .tl b{display:block; font-weight:500; font-size:15.5px; color:var(--bright)}
+.tl div:not(:first-child) b{color:var(--text)}
 .tl span{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:var(--dim); margin-top:7px; display:block}
+.tl div:first-child span{color:var(--amber)}
+@media(prefers-reduced-motion:reduce){ .tl div:first-child::after{transform:scaleX(1)} }
+/* su schermo stretto la riga orizzontale andava a capo in tronconi staccati:
+   diventa una timeline verticale, con lo stesso significato */
+@media(max-width:700px){
+  .tl{display:block; margin-top:4px}
+  .tl div{
+    flex:none; border-top:0; padding:0 0 26px 26px;
+    border-left:2px dashed rgba(44,66,101,.9);
+  }
+  .tl div:first-child{border-left-style:solid}
+  .tl div:last-child{border-left-color:transparent; padding-bottom:0}
+  .tl div::before{left:-6px; top:0}
+  .tl div:first-child::after{
+    left:-2px; right:auto; top:0; bottom:0; width:2px; height:auto;
+    transform:scaleY(0); transform-origin:50% 0;
+  }
+  .section.in .tl div:first-child::after{transform:scaleY(1)}
+  .tl b{font-size:16px}
+  .tl span{margin-top:5px}
+}
+@media(max-width:700px) and (prefers-reduced-motion:reduce){
+  .tl div:first-child::after{transform:scaleY(1)}
+}
 
 /* CTA */
 #audit{background:linear-gradient(to bottom,var(--navy) 0%,#0C1729 100%); text-align:center}

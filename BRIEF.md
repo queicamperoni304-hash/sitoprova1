@@ -279,3 +279,24 @@ Token, reset, header, sezioni, griglie, tile, piani, bottone, CTA, form e
 footer stanno in `sito/base.css`, linkato da index.html e team.html.
 Restano inline in index.html solo gli stili del film, del sistema solare e
 della demo. MODIFICARE I COMPONENTI CONDIVISI SOLO IN base.css.
+
+---
+
+## La timeline dei moduli (sezione PER CHI) — non e' una barra di avanzamento
+
+L'ambra marca cio' che e' ATTIVO OGGI (Contratti e DPA). Il resto sono moduli
+a +6, +12 e +18 mesi: NON vanno riempiti. Riempire tutta la linea direbbe che
+la roadmap e' gia' consegnata — falso, e contrario alla postura del brand, che
+dichiara per prime le caselle vuote.
+
+Il problema segnalato era di leggibilita', non di dati: una linea continua con
+un solo segmento acceso si legge come una barra di caricamento rotta. Ora:
+- futuro TRATTEGGIATO, nodi VUOTI (cerchio con bordo, riempimento = fondo)
+- presente solido, nodo pieno ambra, etichetta "OGGI" in ambra
+- il segmento attivo si disegna all'ingresso della sezione e poi si ferma
+  visibilmente: fermarsi e' diverso dal non essere mai partiti
+- su <=700px diventa una timeline VERTICALE: in orizzontale andava a capo in
+  tronconi staccati e si leggeva come tre righe scollegate
+
+Se un modulo entra davvero in produzione, si sposta il confine: `:first-child`
+diventa `:nth-child(-n+2)` per i solidi, e si aggiorna l'etichetta.
